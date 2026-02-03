@@ -1,4 +1,4 @@
-<h2>New FolkCoder Registration</h2>
-<p><strong>Name:</strong> <%= @user.name %></p>
-<p><strong>Email:</strong> <%= @user.email_address %></p>
-<p><strong>Registered at:</strong> <%= @user.created_at %></p>
+<h2><%= t('mailers.registration_notification.title') %></h2>
+<p><strong><%= t('mailers.registration_notification.name_label') %></strong> <%= @user.name %></p>
+<p><strong><%= t('mailers.registration_notification.email_label') %></strong> <%= @user.email_address %></p>
+<p><strong><%= t('mailers.registration_notification.registered_at_label') %></strong> <%= @user.created_at %></p>

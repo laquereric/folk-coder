@@ -143,6 +143,16 @@ test "has SwarmPod content",     "/next", "SwarmPod"
 test "Register & Begin link",    "/next", "/registration/new"
 puts
 
+# --- Locale / i18n ---
+puts "Locale / i18n"
+test "Spanish home loads",       "/es", { status: 200 }, "Never Hack"
+test "French hackathons loads",  "/fr/hackathons", { status: 200 }, "Hackathon Hub"
+test "Portuguese FAQ loads",     "/pt/faq", { status: 200 }, "FAQ"
+test "explicit /en/ prefix",     "/en/hackathons", { status: 200 }, "Hackathon Hub"
+test "lang switcher on English", "/", "language-switcher"
+test "lang switcher on Spanish", "/es", "language-switcher"
+puts
+
 # --- Health Check ---
 puts "Health"
 test "returns 200",              "/up", { status: 200 }

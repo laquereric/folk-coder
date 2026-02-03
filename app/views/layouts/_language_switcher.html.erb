@@ -1,0 +1,12 @@
+<div class="flex items-center space-x-2 text-sm" data-testid="language-switcher">
+  <% I18n.available_locales.each_with_index do |loc, i| %>
+    <% if i > 0 %><span class="text-gray-600">|</span><% end %>
+    <% if loc == I18n.locale %>
+      <span class="text-white font-medium"><%= t("language_switcher.#{loc}") %></span>
+    <% else %>
+      <%= link_to t("language_switcher.#{loc}"),
+            url_for(request.query_parameters.merge(locale: loc == :en ? nil : loc)),
+            class: "text-gray-400 hover:text-white transition" %>
+    <% end %>
+  <% end %>
+</div>

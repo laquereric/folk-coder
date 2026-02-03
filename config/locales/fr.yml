@@ -1,0 +1,228 @@
+fr:
+  layouts:
+    application:
+      meta_description: "La plateforme sociale ou les createurs se rencontrent, les equipes se forment et l'innovation prend vie."
+      nav_how_it_works: "Comment ca marche"
+      nav_features: "Fonctionnalites"
+      nav_starting_gate: "Starting Gate"
+      nav_faq: "FAQ"
+      nav_log_out: "Deconnexion"
+      nav_sign_up: "S'inscrire"
+      footer_tagline: "La ou les createurs se rencontrent."
+      footer_copyright: "FolkCoder. Tous droits reserves."
+
+  language_switcher:
+    en: "English"
+    es: "Espanol"
+    fr: "Francais"
+    pt: "Portugues"
+
+  pages:
+    home:
+      hero_title_html: "Ne hackez plus <span class=\"text-folk-blue\">seul</span>."
+      hero_subtitle: "FolkCoder est la plateforme sociale ou les createurs se rencontrent, les equipes se forment et l'innovation prend vie. Trouvez votre equipe pour n'importe quel hackathon, ou decouvrez votre prochaine grande idee."
+      hero_cta_primary: "Trouvez votre equipe"
+      hero_cta_secondary: "Explorer les hackathons"
+      how_it_works_title: "Votre aventure commence ici"
+      step1_title: "Creez votre profil"
+      step1_text: "Mettez en valeur vos competences, vos roles preferes et ce que vous aimez construire. Votre passeport developpeur est la premiere etape pour trouver l'equipe ideale."
+      step2_title: "Decouvrez et connectez"
+      step2_text: "Explorez des milliers de hackathons et parcourez les equipes qui recherchent votre expertise. Ou publiez votre propre idee de projet et recrutez l'equipe de vos reves."
+      step3_title: "Construisez quelque chose d'incroyable"
+      step3_text: "Collaborez avec votre nouvelle equipe dans un espace de travail prive. Une fois termine, presentez votre projet a toute la communaute FolkCoder."
+      features_title: "Tous les outils pour reussir"
+      feature_profiles_title: "Profils developpeurs"
+      feature_profiles_text: "Allez au-dela du CV. Creez un profil riche qui met en avant vos competences techniques, vos roles en hackathon et votre style de collaboration. Montrez a la communaute ce que vous apportez."
+      feature_hub_title: "Le Hub Hackathon"
+      feature_hub_text: "Un repertoire complet et consultable de hackathons internationaux. Filtrez par technologie, theme, dotation et bien plus. Ne manquez plus jamais une occasion de creer."
+      feature_teams_title: "Formation d'equipe intelligente"
+      feature_teams_text: "Notre plateforme facilite la recherche de coequipiers. Cherchez des developpeurs par competence, publiez des postes ouverts sur le tableau de recrutement de votre equipe et connectez-vous avec des personnes qui partagent votre vision."
+      feature_showcases_title: "Vitrines de projets"
+      feature_showcases_text: "Soyez fier de ce que vous construisez. Chaque projet dispose d'une page dediee avec galerie, description et lien vers le code. Obtenez des retours, trouvez l'inspiration et enrichissez votre portfolio."
+      community_title: "Rejoignez une communauté de créateurs en pleine croissance"
+      stat_developers: "Développeurs"
+      stat_hackathons: "Hackathons répertoriés"
+      starting_gate_title: "Le Starting Gate : decouvrez la suite"
+      starting_gate_subtitle: "Le monde de la technologie evolue vite. \"Le Starting Gate\" est notre espace dedie a la mise en avant des frameworks, API et outils developpeurs les plus prometteurs."
+      starting_gate_badge: "Fonctionnalite premiere"
+      starting_gate_name: "SwarmPod"
+      starting_gate_text_html: "Curieux de decouvrir la programmation agentique avec Rails ? <strong class=\"text-gray-200\">SwarmPod</strong> est un framework revolutionnaire qui vous permet de deployer une application Rails multi-depot, prete pour la production, en une seule commande. C'est le moyen le plus rapide de passer de l'idee a une base evolutive."
+      starting_gate_cta: "En savoir plus sur SwarmPod"
+      starting_gate_partner_html: "Vous souhaitez mettre en avant votre framework ? <a href=\"#\" class=\"text-folk-blue hover:underline\">Devenez partenaire</a>"
+      for_everyone_title: "Une plateforme pour tout l'univers des hackathons"
+      for_developers_title: "Pour les developpeurs"
+      for_developers_text: "Que vous soyez un veteran ou un debutant, FolkCoder est votre port d'attache. Trouvez des coequipiers qui completent vos competences, apprenez de nouvelles technologies et construisez un portfolio qui se demarque."
+      for_organizers_title: "Pour les organisateurs"
+      for_organizers_text: "Attirez plus de participants et enrichissez l'experience de votre evenement. Utilisez FolkCoder pour offrir a vos participants un espace dedie a la formation d'equipes et a la presentation de projets."
+      for_sponsors_title: "Pour les sponsors"
+      for_sponsors_text: "Interagissez avec la communaute des developpeurs de la maniere la plus authentique qui soit. Sponsorisez un hackathon, lancez un defi pour votre API et decouvrez les meilleurs talents."
+      cta_title: "Pret a construire ?"
+      cta_subtitle: "Votre prochaine equipe, votre prochain projet, votre prochaine grande idee -- tout commence sur FolkCoder."
+      cta_button: "S'inscrire gratuitement"
+
+    faq:
+      title: "FAQ"
+      subtitle: "Questions frequentes sur FolkCoder et le monde des hackathons."
+      q1_title: "C'est quoi le \"hacking\" ?"
+      q1_answer_html: >-
+        Dans le monde de la tech, \"hacker\" ne signifie pas pirater des systemes. Cela signifie
+        <strong class="text-white">resoudre des problemes de maniere creative avec du code</strong>. Quand les developpeurs
+        disent qu'ils \"hackent\", ils veulent dire qu'ils construisent quelque chose rapidement, experimentent
+        des idees et repoussent les limites du possible. C'est une question d'ingeniosite,
+        de prototypage rapide et de transformation d'une idee en projet fonctionnel&mdash;souvent en tres
+        peu de temps. Voyez cela comme l'art de faire fonctionner les choses.
+      q2_title: "C'est quoi un hackathon ?"
+      q2_answer_p1_html: >-
+        Un hackathon est un evenement&mdash;qui dure generalement de 24 a 48 heures&mdash;ou des personnes se
+        reunissent pour creer des projets logiciels a partir de zero. Les equipes se forment, choisissent un defi ou une idee,
+        et se lancent dans la creation d'un prototype fonctionnel avant la date limite. A la fin, les equipes presentent leurs
+        projets a un jury et concourent pour des prix.
+      q2_answer_p2_html: >-
+        Les hackathons sont ouverts a <strong class="text-white">tous les niveaux</strong>. Vous n'avez pas
+        besoin d'etre un programmeur expert pour participer. De nombreux hackathons accueillent des designers,
+        des profils business et des debutants complets. C'est l'un des meilleurs moyens d'apprendre en pratiquant,
+        de rencontrer d'autres createurs et d'ajouter de vrais projets a votre portfolio.
+      q2_answer_p3_html: >-
+        Ils peuvent etre <span class="text-folk-purple">en presentiel</span>,
+        <span class="text-folk-green">en ligne</span> ou
+        <span class="text-folk-orange">hybrides</span>. Certains se concentrent sur des themes specifiques comme
+        l'IA, le climat, la sante ou la fintech. La plupart sont gratuits, et beaucoup proposent du mentorat,
+        des ateliers et du reseautage en plus de la competition.
+      cta_text: "Pret a trouver votre premier hackathon ?"
+      cta_button: "Parcourir les hackathons"
+
+    next_page:
+      hero_title: "Felicitations !"
+      hero_subtitle: "Vous venez de creer une application Rails fonctionnelle en une seule commande. Bienvenue dans le programme SwarmPod sur FolkCoder."
+      what_happened_title: "\"Attendez, qu'est-ce qui vient de se passer ?\""
+      what_happened_p1_html: >-
+        Vous avez clique sur une carte de lecon dans votre application locale et vous avez atterri ici. L'application que vous venez de creer semble trompeusement simple -- trois cartes, un pied de page, c'est tout. Ce sentiment de <strong class="text-gray-200">\"c'est tout ?\"</strong> est intentionnel.
+      what_happened_p2_html: >-
+        Ce qui s'est reellement passe est bien plus interessant : vous avez lance <code class="bg-gray-800 text-folk-green px-2 py-1 rounded">rails new --template</code> et une application entierement structuree, prete pour la production, est apparue -- stylisee, routee et prete a etre enrichie. Plus besoin de se battre avec le code de base. Plus besoin de copier-coller des fichiers de configuration. <strong class="text-gray-200">Une seule commande, et vous etiez pret a coder.</strong>
+      philosophy_title: "Pourquoi c'est construit ainsi"
+      philosophy_subtitle_html: >-
+        La simplicite <strong class="text-gray-200">EST</strong> la lecon. Chaque choix architectural dans SwarmPod est delibere, concu pour refleter la maniere dont les equipes modernes et performantes livrent leurs logiciels.
+      philosophy_multi_repo_title: "Architecture multi-depot"
+      philosophy_multi_repo_text: "Chaque responsabilite vit dans son propre depot. C'est ainsi que les vraies equipes livrent leurs logiciels, en permettant des cycles de developpement et de deploiement independants."
+      philosophy_gems_title: "Gems modulaires"
+      philosophy_gems_text: "SwarmPod Core est une gem Ruby, pas un bloc monolithique. Cela favorise la reutilisabilite et une separation claire des responsabilites."
+      philosophy_secrets_title: "Secrets hors du depot"
+      philosophy_secrets_text: "Vos identifiants et cles API ne touchent jamais le controle de version. SwarmPod impose les bonnes pratiques de gestion des secrets des le depart."
+      philosophy_containers_title: "Environnements conteneurises"
+      philosophy_containers_text: "Docker Compose fait de \"ca marche sur ma machine\" une garantie, pas une excuse. Chaque developpeur dispose d'un environnement identique et coherent."
+      philosophy_templates_title: "Configuration pilotee par les templates"
+      philosophy_templates_text: "Une seule commande cree un point de depart coherent pour chaque membre de l'equipe. Cela elimine les derives de configuration et accelere considerablement l'integration."
+      philosophy_summary_html: >-
+        Vous avez lance <code class="bg-gray-800 text-folk-green px-2 py-1 rounded">rails new --template</code> et vous aviez une application fonctionnelle. C'est ca la <strong class="text-white">programmation agentique</strong> -- laisser les outils faire le travail de configuration pour que vous puissiez vous concentrer sur ce qui compte vraiment : construire.
+      curriculum_cta_title: "Commencez le programme"
+      curriculum_cta_text: "Ce moment de surprise n'etait que le debut. Le programme complet SwarmPod vous guidera a travers chaque aspect de ce flux de travail professionnel. Vous maitriserez la gestion des secrets, Docker, GitHub Actions et bien plus -- le tout dans le contexte de l'application que vous venez de creer."
+      curriculum_cta_subtitle: "Inscrivez-vous sur FolkCoder pour acceder au programme complet SwarmPod. Nous suivrons votre progression et vous connecterons avec une communaute de createurs."
+      curriculum_cta_button: "S'inscrire et commencer"
+      community_title: "Plus qu'un programme, une communaute"
+      community_subtitle: "En vous inscrivant, vous ne debloquez pas seulement des lecons : vous rejoignez FolkCoder, la plateforme sociale pour les createurs."
+      community_progress_title: "Suivez votre progression"
+      community_progress_text: "Sauvegardez votre avancement dans le programme et reprenez la ou vous vous etiez arrete."
+      community_connect_title: "Connectez et collaborez"
+      community_connect_text: "Trouvez d'autres developpeurs qui apprennent SwarmPod, posez des questions et obtenez des retours."
+      community_team_title: "Trouvez votre prochaine equipe"
+      community_team_text: "Quand vous serez pret, utilisez vos nouvelles competences pour rejoindre une equipe de hackathon et construire quelque chose d'incroyable."
+      community_closing: "Votre parcours vers l'excellence en developpement commence maintenant."
+
+  sessions:
+    new:
+      title: "Connexion"
+      email_label: "E-mail"
+      email_placeholder: "vous@exemple.com"
+      password_label: "Mot de passe"
+      password_placeholder: "Saisissez votre mot de passe"
+      submit: "Se connecter"
+      forgot_password: "Mot de passe oublie ?"
+      create_account: "Creer un compte"
+
+  registrations:
+    new:
+      title: "Creez votre compte"
+      name_label: "Nom"
+      name_placeholder: "Votre nom"
+      email_label: "E-mail"
+      email_placeholder: "vous@exemple.com"
+      password_label: "Mot de passe"
+      password_placeholder: "Creez un mot de passe"
+      confirm_password_label: "Confirmer le mot de passe"
+      confirm_password_placeholder: "Confirmez votre mot de passe"
+      submit: "Creer le compte"
+      already_have_account: "Vous avez deja un compte ?"
+      sign_in: "Se connecter"
+
+  passwords:
+    new:
+      title: "Mot de passe oublie ?"
+      instructions: "Saisissez votre e-mail et nous vous enverrons les instructions de reinitialisation."
+      email_label: "E-mail"
+      email_placeholder: "vous@exemple.com"
+      submit: "Envoyer les instructions"
+      remember_password: "Vous vous souvenez de votre mot de passe ?"
+      sign_in: "Se connecter"
+    edit:
+      title: "Modifier votre mot de passe"
+      new_password_label: "Nouveau mot de passe"
+      new_password_placeholder: "Saisissez le nouveau mot de passe"
+      confirm_password_label: "Confirmer le nouveau mot de passe"
+      confirm_password_placeholder: "Confirmez le nouveau mot de passe"
+      submit: "Mettre a jour le mot de passe"
+
+  hackathons:
+    index:
+      title: "Hub Hackathon"
+      subtitle: "Decouvrez les hackathons a venir et trouvez votre prochain defi."
+      search_placeholder: "Rechercher des hackathons..."
+      all_themes: "Tous les themes"
+      all_formats: "Tous les formats"
+      all_regions: "Toutes les regions"
+      search_button: "Rechercher"
+      results_count:
+        one: "%{count} hackathon trouve"
+        other: "%{count} hackathons trouves"
+      register: "S'inscrire"
+      no_results: "Aucun hackathon ne correspond a votre recherche."
+      clear_filters: "Effacer les filtres"
+
+  curriculum:
+    index:
+      title: "Programme SwarmPod"
+      subtitle: "Maitrisez les outils et les methodes utilises par les equipes de developpement professionnelles."
+      your_progress: "Votre progression"
+      lessons_count: "%{completed} / %{total} lecons"
+      curriculum_complete: "Programme termine !"
+
+  lessons:
+    show:
+      back_to_curriculum_html: "&larr; Retour au programme"
+      completed: "Termine"
+      mark_complete: "Marquer comme termine"
+      next_lesson_html: "Lecon suivante &rarr;"
+      back_to_curriculum: "Retour au programme"
+
+  flash:
+    rate_limited: "Reessayez plus tard."
+    login_failed: "Essayez une autre adresse e-mail ou un autre mot de passe."
+    welcome: "Bienvenue sur FolkCoder !"
+    password_reset_sent: "Instructions de reinitialisation envoyees (si un compte existe avec cette adresse e-mail)."
+    password_reset_success: "Le mot de passe a ete reinitialise."
+    passwords_mismatch: "Les mots de passe ne correspondent pas."
+    password_link_invalid: "Le lien de reinitialisation est invalide ou a expire."
+    lesson_completed: "Lecon terminee !"
+
+  mailers:
+    passwords:
+      reset:
+        subject: "Reinitialiser votre mot de passe"
+        body_html: "Vous pouvez reinitialiser votre mot de passe sur %{link}."
+        link_text: "cette page de reinitialisation"
+        expiry: "Ce lien expirera dans %{time}."
+    registration_notification:
+      subject: "Nouvelle inscription FolkCoder : %{name}"
+      title: "Nouvelle inscription FolkCoder"
+      name_label: "Nom :"
+      email_label: "E-mail :"
+      registered_at_label: "Date d'inscription :"

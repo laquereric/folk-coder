@@ -6,7 +6,7 @@ class LessonsController < ApplicationController
 
   def complete
     Current.user.lesson_completions.find_or_create_by!(lesson: @lesson)
-    redirect_to @lesson.next_lesson || curriculum_path, notice: "Lesson completed!"
+    redirect_to @lesson.next_lesson || curriculum_path, notice: t("flash.lesson_completed")
   end
 
   private

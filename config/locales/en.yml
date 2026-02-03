@@ -1,31 +1,241 @@
-# Files in the config/locales directory are used for internationalization and
-# are automatically loaded by Rails. If you want to use locales other than
-# English, add the necessary files in this directory.
-#
-# To use the locales, use `I18n.t`:
-#
-#     I18n.t "hello"
-#
-# In views, this is aliased to just `t`:
-#
-#     <%= t("hello") %>
-#
-# To use a different locale, set it with `I18n.locale`:
-#
-#     I18n.locale = :es
-#
-# This would use the information in config/locales/es.yml.
-#
-# To learn more about the API, please read the Rails Internationalization guide
-# at https://guides.rubyonrails.org/i18n.html.
-#
-# Be aware that YAML interprets the following case-insensitive strings as
-# booleans: `true`, `false`, `on`, `off`, `yes`, `no`. Therefore, these strings
-# must be quoted to be interpreted as strings. For example:
-#
-#     en:
-#       "yes": yup
-#       enabled: "ON"
-
 en:
-  hello: "Hello world"
+  # === Layout ===
+  layouts:
+    application:
+      meta_description: "The social platform where builders connect, teams form, and innovation happens."
+      nav_how_it_works: "How It Works"
+      nav_features: "Features"
+      nav_starting_gate: "Starting Gate"
+      nav_faq: "FAQ"
+      nav_log_out: "Log Out"
+      nav_sign_up: "Sign Up"
+      footer_tagline: "Where builders connect."
+      footer_copyright: "FolkCoder. All rights reserved."
+
+  # === Language Switcher ===
+  language_switcher:
+    en: "English"
+    es: "Español"
+    fr: "Français"
+    pt: "Português"
+
+  # === Pages: Home ===
+  pages:
+    home:
+      hero_title_html: "Never Hack <span class=\"text-folk-blue\">Alone</span> Again."
+      hero_subtitle: "FolkCoder is the social platform where builders connect, teams form, and innovation happens. Find your crew for any hackathon, or discover your next great idea."
+      hero_cta_primary: "Find Your Crew"
+      hero_cta_secondary: "Explore Hackathons"
+      how_it_works_title: "Your Journey Starts Here"
+      step1_title: "Create Your Profile"
+      step1_text: "Showcase your skills, preferred roles, and what you love to build. Your developer passport is the first step to finding the perfect team."
+      step2_title: "Discover & Connect"
+      step2_text: "Explore thousands of hackathons and browse teams looking for your expertise. Or, post your own project idea and recruit your dream team."
+      step3_title: "Build Something Amazing"
+      step3_text: "Collaborate with your new crew in a private workspace. When you're done, showcase your project to the entire FolkCoder community."
+      features_title: "All The Tools You Need to Succeed"
+      feature_profiles_title: "Developer Profiles"
+      feature_profiles_text: "Go beyond a resume. Create a rich profile that highlights your technical skills, hackathon roles, and collaboration style. Let the community know what you bring to the table."
+      feature_hub_title: "The Hackathon Hub"
+      feature_hub_text: "A comprehensive, searchable directory of global hackathons. Filter by technology, theme, prize money, and more. Never miss an opportunity to build."
+      feature_teams_title: "Smart Team Formation"
+      feature_teams_text: "Our platform makes finding teammates easy. Search for developers by skill, post open roles on your team's recruiting board, and connect with people who share your vision."
+      feature_showcases_title: "Project Showcases"
+      feature_showcases_text: "Be proud of what you build. Every project gets a dedicated page with a gallery, description, and link to the code. Get feedback, find inspiration, and build your portfolio."
+      community_title: "Join a Growing Community of Builders"
+      stat_developers: "Developers"
+      stat_hackathons: "Hackathons Listed"
+      starting_gate_title: "The Starting Gate: Discover What's Next"
+      starting_gate_subtitle: "The world of technology moves fast. \"The Starting Gate\" is our curated space for showcasing the most promising new frameworks, APIs, and developer tools."
+      starting_gate_badge: "Premier Feature"
+      starting_gate_name: "SwarmPod"
+      starting_gate_text_html: "Curious about agentic programming in Rails? <strong class=\"text-gray-200\">SwarmPod</strong> is a revolutionary framework that lets you stand up a production-ready, multi-repo Rails application with a single command. It's the fastest way to go from idea to a scalable foundation."
+      starting_gate_cta: "Learn More About SwarmPod"
+      starting_gate_partner_html: "Want your framework featured? <a href=\"#\" class=\"text-folk-blue hover:underline\">Become a Partner</a>"
+      for_everyone_title: "A Platform for the Entire Hackathon World"
+      for_developers_title: "For Developers"
+      for_developers_text: "Whether you're a seasoned pro or a first-timer, FolkCoder is your home. Find teammates who complement your skills, learn new technologies, and build a portfolio that stands out."
+      for_organizers_title: "For Organizers"
+      for_organizers_text: "Attract more participants and enhance your event experience. Use FolkCoder to give your attendees a dedicated space for team formation and project showcases."
+      for_sponsors_title: "For Sponsors"
+      for_sponsors_text: "Engage with the developer community in the most authentic way possible. Sponsor a hackathon, post a challenge for your API, and discover top talent."
+      cta_title: "Ready to Build?"
+      cta_subtitle: "Your next team, your next project, your next big idea — it all starts on FolkCoder."
+      cta_button: "Sign Up for Free"
+
+    # === Pages: FAQ ===
+    faq:
+      title: "FAQ"
+      subtitle: "Common questions about FolkCoder and the hackathon world."
+      q1_title: "What's \"Hacking\"?"
+      q1_answer_html: >-
+        In the tech world, "hacking" doesn't mean breaking into systems. It means
+        <strong class="text-white">creative problem-solving with code</strong>. When developers
+        say they're "hacking," they mean they're building something quickly, experimenting with
+        ideas, and pushing the boundaries of what's possible. It's about resourcefulness,
+        rapid prototyping, and turning an idea into a working project&mdash;often in a short
+        amount of time. Think of it as the art of making things work.
+      q2_title: "What's a Hackathon?"
+      q2_answer_p1_html: >-
+        A hackathon is an event&mdash;typically lasting 24 to 48 hours&mdash;where people come
+        together to build software projects from scratch. Teams form, pick a challenge or idea,
+        and race to create a working prototype by the deadline. At the end, teams present their
+        projects to judges and compete for prizes.
+      q2_answer_p2_html: >-
+        Hackathons are open to <strong class="text-white">all skill levels</strong>. You don't
+        need to be an expert programmer to participate. Many hackathons welcome designers,
+        business minds, and complete beginners. It's one of the best ways to learn by doing,
+        meet other builders, and add real projects to your portfolio.
+      q2_answer_p3_html: >-
+        They can be <span class="text-folk-purple">in-person</span>,
+        <span class="text-folk-green">virtual</span>, or
+        <span class="text-folk-orange">hybrid</span>. Some focus on specific themes like
+        AI, climate, health, or fintech. Most are free to enter, and many offer mentorship,
+        workshops, and networking alongside the competition.
+      cta_text: "Ready to find your first hackathon?"
+      cta_button: "Browse Hackathons"
+
+    # === Pages: Next Page ===
+    next_page:
+      hero_title: "Congratulations!"
+      hero_subtitle: "You just built a working Rails application with a single command. Welcome to the SwarmPod curriculum on FolkCoder."
+      what_happened_title: '"Wait, what just happened?"'
+      what_happened_p1_html: >-
+        You clicked a lesson card on your local app and landed here. The application you just created looks deceptively simple — three cards, a footer, done. That feeling of <strong class="text-gray-200">"is that it?"</strong> is intentional.
+      what_happened_p2_html: >-
+        What actually happened is more interesting: you ran <code class="bg-gray-800 text-folk-green px-2 py-1 rounded">rails new --template</code> and a fully structured, production-ready application appeared — styled, routed, and ready for you to build upon. No more wrestling with boilerplate setup. No more copy-pasting configuration files. <strong class="text-gray-200">One command, and you were ready to code.</strong>
+      philosophy_title: "Why It's Built This Way"
+      philosophy_subtitle_html: >-
+        The simplicity <strong class="text-gray-200">IS</strong> the lesson. Every architectural choice in SwarmPod is deliberate, designed to reflect how modern, high-performing teams ship software.
+      philosophy_multi_repo_title: "Multi-Repo Architecture"
+      philosophy_multi_repo_text: "Each concern lives in its own repository. This is how real teams ship software, enabling independent development and deployment cycles."
+      philosophy_gems_title: "Modular Gems"
+      philosophy_gems_text: "SwarmPod Core is a Ruby gem, not a monolithic feature. This promotes reusability and clean separation of concerns."
+      philosophy_secrets_title: "Secrets Outside the Repo"
+      philosophy_secrets_text: "Your credentials and API keys never touch version control. SwarmPod enforces best practices for secrets management from the very beginning."
+      philosophy_containers_title: "Containerized Environments"
+      philosophy_containers_text: "Docker Compose makes \"works on my machine\" a guarantee, not an excuse. Every developer gets an identical, consistent environment."
+      philosophy_templates_title: "Template-Driven Setup"
+      philosophy_templates_text: "One command creates a consistent starting point for every team member. This eliminates configuration drift and dramatically speeds up onboarding."
+      philosophy_summary_html: >-
+        You just ran <code class="bg-gray-800 text-folk-green px-2 py-1 rounded">rails new --template</code> and had a working app. That's <strong class="text-white">agentic programming</strong> — letting tools do the setup work so you can focus on what truly matters: building.
+      curriculum_cta_title: "Start the Curriculum"
+      curriculum_cta_text: "That \"wow\" moment was just the beginning. The full SwarmPod curriculum will guide you through every aspect of this professional workflow. You'll master secrets management, Docker, GitHub Actions, and more — all within the context of the application you just created."
+      curriculum_cta_subtitle: "Register at FolkCoder to unlock the full SwarmPod curriculum. We'll track your progress and connect you with a community of fellow builders."
+      curriculum_cta_button: "Register & Begin"
+      community_title: "More Than a Curriculum, It's a Community"
+      community_subtitle: "By registering, you're not just unlocking lessons; you're joining FolkCoder, the social platform for builders."
+      community_progress_title: "Track Your Progress"
+      community_progress_text: "Save your place in the curriculum and pick up where you left off."
+      community_connect_title: "Connect & Collaborate"
+      community_connect_text: "Find other developers learning SwarmPod, ask questions, and get feedback."
+      community_team_title: "Find Your Next Team"
+      community_team_text: "When you're ready, use your new skills to join a hackathon team and build something amazing."
+      community_closing: "Your journey to becoming a professional-grade developer starts now."
+
+  # === Sessions (Sign In) ===
+  sessions:
+    new:
+      title: "Sign In"
+      email_label: "Email"
+      email_placeholder: "you@example.com"
+      password_label: "Password"
+      password_placeholder: "Enter your password"
+      submit: "Sign In"
+      forgot_password: "Forgot password?"
+      create_account: "Create an account"
+
+  # === Registrations (Sign Up) ===
+  registrations:
+    new:
+      title: "Create Your Account"
+      name_label: "Name"
+      name_placeholder: "Your name"
+      email_label: "Email"
+      email_placeholder: "you@example.com"
+      password_label: "Password"
+      password_placeholder: "Create a password"
+      confirm_password_label: "Confirm Password"
+      confirm_password_placeholder: "Confirm your password"
+      submit: "Create Account"
+      already_have_account: "Already have an account?"
+      sign_in: "Sign in"
+
+  # === Passwords ===
+  passwords:
+    new:
+      title: "Forgot Your Password?"
+      instructions: "Enter your email and we'll send you reset instructions."
+      email_label: "Email"
+      email_placeholder: "you@example.com"
+      submit: "Email Reset Instructions"
+      remember_password: "Remember your password?"
+      sign_in: "Sign in"
+    edit:
+      title: "Update Your Password"
+      new_password_label: "New Password"
+      new_password_placeholder: "Enter new password"
+      confirm_password_label: "Confirm New Password"
+      confirm_password_placeholder: "Confirm new password"
+      submit: "Update Password"
+
+  # === Hackathons ===
+  hackathons:
+    index:
+      title: "Hackathon Hub"
+      subtitle: "Discover upcoming hackathons and find your next challenge."
+      search_placeholder: "Search hackathons..."
+      all_themes: "All Themes"
+      all_formats: "All Formats"
+      all_regions: "All Regions"
+      search_button: "Search"
+      results_count:
+        one: "%{count} hackathon found"
+        other: "%{count} hackathons found"
+      register: "Register"
+      no_results: "No hackathons match your search."
+      clear_filters: "Clear filters"
+
+  # === Curriculum ===
+  curriculum:
+    index:
+      title: "SwarmPod Curriculum"
+      subtitle: "Master the tools and workflows used by professional development teams."
+      your_progress: "Your Progress"
+      lessons_count: "%{completed} / %{total} lessons"
+      curriculum_complete: "Curriculum complete!"
+
+  # === Lessons ===
+  lessons:
+    show:
+      back_to_curriculum_html: "&larr; Back to Curriculum"
+      completed: "Completed"
+      mark_complete: "Mark Complete"
+      next_lesson_html: "Next Lesson &rarr;"
+      back_to_curriculum: "Back to Curriculum"
+
+  # === Flash Messages ===
+  flash:
+    rate_limited: "Try again later."
+    login_failed: "Try another email address or password."
+    welcome: "Welcome to FolkCoder!"
+    password_reset_sent: "Password reset instructions sent (if user with that email address exists)."
+    password_reset_success: "Password has been reset."
+    passwords_mismatch: "Passwords did not match."
+    password_link_invalid: "Password reset link is invalid or has expired."
+    lesson_completed: "Lesson completed!"
+
+  # === Mailers ===
+  mailers:
+    passwords:
+      reset:
+        subject: "Reset your password"
+        body_html: "You can reset your password on %{link}."
+        link_text: "this password reset page"
+        expiry: "This link will expire in %{time}."
+    registration_notification:
+      subject: "New FolkCoder Registration: %{name}"
+      title: "New FolkCoder Registration"
+      name_label: "Name:"
+      email_label: "Email:"
+      registered_at_label: "Registered at:"

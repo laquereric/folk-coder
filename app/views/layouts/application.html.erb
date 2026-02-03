@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html class="h-full">
+<html lang="<%= I18n.locale %>" class="h-full">
   <head>
     <title><%= content_for(:title) || "FolkCoder" %></title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="application-name" content="FolkCoder">
     <meta name="mobile-web-app-capable" content="yes">
-    <meta name="description" content="The social platform where builders connect, teams form, and innovation happens.">
+    <meta name="description" content="<%= t('layouts.application.meta_description') %>">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
@@ -50,16 +50,17 @@
             <% end %>
           </div>
           <div class="hidden md:flex items-center space-x-8">
-            <a href="#how-it-works" class="text-gray-300 hover:text-white transition">How It Works</a>
-            <a href="#features" class="text-gray-300 hover:text-white transition">Features</a>
-            <a href="#starting-gate" class="text-gray-300 hover:text-white transition">Starting Gate</a>
-            <%= link_to "FAQ", faq_path, class: "text-gray-300 hover:text-white transition" %>
+            <a href="#how-it-works" class="text-gray-300 hover:text-white transition"><%= t('layouts.application.nav_how_it_works') %></a>
+            <a href="#features" class="text-gray-300 hover:text-white transition"><%= t('layouts.application.nav_features') %></a>
+            <a href="#starting-gate" class="text-gray-300 hover:text-white transition"><%= t('layouts.application.nav_starting_gate') %></a>
+            <%= link_to t('layouts.application.nav_faq'), faq_path, class: "text-gray-300 hover:text-white transition" %>
             <% if authenticated? %>
               <span class="text-gray-300"><%= Current.user.name %></span>
-              <%= button_to "Log Out", session_path, method: :delete, class: "text-gray-400 hover:text-white transition" %>
+              <%= button_to t('layouts.application.nav_log_out'), session_path, method: :delete, class: "text-gray-400 hover:text-white transition" %>
             <% else %>
-              <%= link_to "Sign Up", new_registration_path, class: "bg-folk-blue hover:bg-blue-600 text-white px-4 py-2 rounded-lg font-medium transition" %>
+              <%= link_to t('layouts.application.nav_sign_up'), new_registration_path, class: "bg-folk-blue hover:bg-blue-600 text-white px-4 py-2 rounded-lg font-medium transition" %>
             <% end %>
+            <%= render "layouts/language_switcher" %>
           </div>
         </div>
       </div>
@@ -77,10 +78,10 @@
             <span class="text-xl font-bold">
               <span class="text-folk-blue">Folk</span><span class="text-folk-green">Coder</span>
             </span>
-            <p class="text-gray-500 text-sm mt-1">Where builders connect.</p>
+            <p class="text-gray-500 text-sm mt-1"><%= t('layouts.application.footer_tagline') %></p>
           </div>
           <div class="text-gray-500 text-sm">
-            &copy; <%= Date.today.year %> FolkCoder. All rights reserved.
+            &copy; <%= Date.today.year %> <%= t('layouts.application.footer_copyright') %>
           </div>
         </div>
       </div>

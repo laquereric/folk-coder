@@ -1,6 +1,6 @@
 class RegistrationsController < ApplicationController
   allow_unauthenticated_access
-  rate_limit to: 10, within: 3.minutes, only: :create, with: -> { redirect_to new_registration_path, alert: "Try again later." }
+  rate_limit to: 10, within: 3.minutes, only: :create, with: -> { redirect_to new_registration_path, alert: I18n.t("flash.rate_limited") }
 
   def new
     @user = User.new
@@ -12,7 +12,7 @@ class RegistrationsController < ApplicationController
     if @user.save
       RegistrationNotificationMailer.new_signup(@user).deliver_later
       start_new_session_for @user
-      redirect_to root_path, notice: "Welcome to FolkCoder!"
+      redirect_to root_path, notice: t("flash.welcome")
     else
       render :new, status: :unprocessable_entity
     end

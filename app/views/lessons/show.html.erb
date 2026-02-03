@@ -2,7 +2,7 @@
   <div class="max-w-3xl mx-auto">
     <!-- Breadcrumb -->
     <div class="mb-8">
-      <%= link_to "&larr; Back to Curriculum".html_safe, curriculum_path, class: "text-folk-blue hover:underline text-sm" %>
+      <%= link_to t('lessons.show.back_to_curriculum_html'), curriculum_path, class: "text-folk-blue hover:underline text-sm" %>
     </div>
 
     <!-- Lesson Header -->
@@ -23,18 +23,18 @@
     <div class="flex items-center justify-between">
       <% if @lesson.completed_by?(Current.user) %>
         <span class="inline-flex items-center gap-2 text-folk-green font-medium">
-          <span>&#10003;</span> Completed
+          <span>&#10003;</span> <%= t('lessons.show.completed') %>
         </span>
       <% else %>
-        <%= button_to "Mark Complete", complete_lesson_path(@lesson), method: :post,
+        <%= button_to t('lessons.show.mark_complete'), complete_lesson_path(@lesson), method: :post,
             class: "bg-folk-green hover:bg-green-600 text-white px-6 py-3 rounded-lg font-semibold transition cursor-pointer" %>
       <% end %>
 
       <% if @lesson.next_lesson %>
-        <%= link_to "Next Lesson &rarr;".html_safe, lesson_path(@lesson.next_lesson),
+        <%= link_to t('lessons.show.next_lesson_html'), lesson_path(@lesson.next_lesson),
             class: "text-folk-blue hover:underline font-medium" %>
       <% else %>
-        <%= link_to "Back to Curriculum", curriculum_path,
+        <%= link_to t('lessons.show.back_to_curriculum'), curriculum_path,
             class: "text-folk-blue hover:underline font-medium" %>
       <% end %>
     </div>

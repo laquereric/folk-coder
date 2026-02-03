@@ -1,47 +1,32 @@
 <section class="pt-32 pb-20 px-4">
   <div class="max-w-4xl mx-auto">
-    <h1 class="text-4xl font-bold mb-4">FAQ</h1>
-    <p class="text-gray-400 text-lg mb-12">Common questions about FolkCoder and the hackathon world.</p>
+    <h1 class="text-4xl font-bold mb-4"><%= t('pages.faq.title') %></h1>
+    <p class="text-gray-400 text-lg mb-12"><%= t('pages.faq.subtitle') %></p>
 
     <div class="space-y-8">
       <div class="bg-gray-800/50 border border-gray-700 rounded-xl p-6">
-        <h2 class="text-xl font-semibold text-folk-blue mb-3">What's "Hacking"?</h2>
+        <h2 class="text-xl font-semibold text-folk-blue mb-3"><%= t('pages.faq.q1_title') %></h2>
         <p class="text-gray-300 leading-relaxed">
-          In the tech world, "hacking" doesn't mean breaking into systems. It means
-          <strong class="text-white">creative problem-solving with code</strong>. When developers
-          say they're "hacking," they mean they're building something quickly, experimenting with
-          ideas, and pushing the boundaries of what's possible. It's about resourcefulness,
-          rapid prototyping, and turning an idea into a working project&mdash;often in a short
-          amount of time. Think of it as the art of making things work.
+          <%= t('pages.faq.q1_answer_html') %>
         </p>
       </div>
 
       <div class="bg-gray-800/50 border border-gray-700 rounded-xl p-6">
-        <h2 class="text-xl font-semibold text-folk-blue mb-3">What's a Hackathon?</h2>
+        <h2 class="text-xl font-semibold text-folk-blue mb-3"><%= t('pages.faq.q2_title') %></h2>
         <p class="text-gray-300 leading-relaxed mb-4">
-          A hackathon is an event&mdash;typically lasting 24 to 48 hours&mdash;where people come
-          together to build software projects from scratch. Teams form, pick a challenge or idea,
-          and race to create a working prototype by the deadline. At the end, teams present their
-          projects to judges and compete for prizes.
+          <%= t('pages.faq.q2_answer_p1_html') %>
         </p>
         <p class="text-gray-300 leading-relaxed mb-4">
-          Hackathons are open to <strong class="text-white">all skill levels</strong>. You don't
-          need to be an expert programmer to participate. Many hackathons welcome designers,
-          business minds, and complete beginners. It's one of the best ways to learn by doing,
-          meet other builders, and add real projects to your portfolio.
+          <%= t('pages.faq.q2_answer_p2_html') %>
         </p>
         <p class="text-gray-300 leading-relaxed">
-          They can be <span class="text-folk-purple">in-person</span>,
-          <span class="text-folk-green">virtual</span>, or
-          <span class="text-folk-orange">hybrid</span>. Some focus on specific themes like
-          AI, climate, health, or fintech. Most are free to enter, and many offer mentorship,
-          workshops, and networking alongside the competition.
+          <%= t('pages.faq.q2_answer_p3_html') %>
         </p>
       </div>
 
       <div class="text-center pt-8">
-        <p class="text-gray-400 mb-4">Ready to find your first hackathon?</p>
-        <%= link_to "Browse Hackathons", hackathons_path,
+        <p class="text-gray-400 mb-4"><%= t('pages.faq.cta_text') %></p>
+        <%= link_to t('pages.faq.cta_button'), hackathons_path,
             class: "inline-block bg-folk-blue hover:bg-blue-600 text-white px-6 py-3 rounded-lg font-medium transition" %>
       </div>
     </div>

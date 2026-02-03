@@ -1,7 +1,7 @@
 <section class="pt-32 pb-20 px-4">
   <div class="max-w-6xl mx-auto">
-    <h1 class="text-4xl font-bold mb-4">Hackathon Hub</h1>
-    <p class="text-gray-400 text-lg mb-8">Discover upcoming hackathons and find your next challenge.</p>
+    <h1 class="text-4xl font-bold mb-4"><%= t('hackathons.index.title') %></h1>
+    <p class="text-gray-400 text-lg mb-8"><%= t('hackathons.index.subtitle') %></p>
 
     <!-- Search & Filters -->
     <%= form_with url: hackathons_path, method: :get, data: { turbo_frame: "hackathon_results" }, class: "mb-8" do |form| %>
@@ -9,31 +9,31 @@
         <div class="flex-1">
           <%= form.text_field :query, value: params[:query],
               class: "w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 text-gray-100 placeholder-gray-500 focus:outline-none focus:border-folk-blue focus:ring-1 focus:ring-folk-blue",
-              placeholder: "Search hackathons..." %>
+              placeholder: t('hackathons.index.search_placeholder') %>
         </div>
         <div>
           <%= form.select :theme, options_for_select(@themes, params[:theme]),
-              { include_blank: "All Themes" },
+              { include_blank: t('hackathons.index.all_themes') },
               class: "bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 text-gray-100 focus:outline-none focus:border-folk-blue" %>
         </div>
         <div>
           <%= form.select :location_type, options_for_select(@location_types, params[:location_type]),
-              { include_blank: "All Formats" },
+              { include_blank: t('hackathons.index.all_formats') },
               class: "bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 text-gray-100 focus:outline-none focus:border-folk-blue" %>
         </div>
         <div>
           <%= form.select :region, options_for_select(@regions, params[:region]),
-              { include_blank: "All Regions" },
+              { include_blank: t('hackathons.index.all_regions') },
               class: "bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 text-gray-100 focus:outline-none focus:border-folk-blue" %>
         </div>
-        <%= form.submit "Search", class: "bg-folk-blue hover:bg-blue-600 text-white px-6 py-3 rounded-lg font-medium transition cursor-pointer" %>
+        <%= form.submit t('hackathons.index.search_button'), class: "bg-folk-blue hover:bg-blue-600 text-white px-6 py-3 rounded-lg font-medium transition cursor-pointer" %>
       </div>
     <% end %>
 
     <!-- Results -->
     <%= turbo_frame_tag "hackathon_results" do %>
       <% if @hackathons.any? %>
-        <p class="text-gray-400 text-sm mb-6"><%= @hackathons.size %> hackathon<%= @hackathons.size == 1 ? '' : 's' %> found</p>
+        <p class="text-gray-400 text-sm mb-6"><%= t('hackathons.index.results_count', count: @hackathons.size) %></p>
         <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
           <% @hackathons.each do |hackathon| %>
             <div class="bg-gray-800/50 border border-gray-700 rounded-xl p-6 hover:border-folk-blue transition flex flex-col">
@@ -79,7 +79,7 @@
               </div>
 
               <% if hackathon.registration_link.present? %>
-                <%= link_to "Register", hackathon.registration_link, target: "_blank", rel: "noopener",
+                <%= link_to t('hackathons.index.register'), hackathon.registration_link, target: "_blank", rel: "noopener",
                     class: "inline-block text-center bg-folk-blue/20 text-folk-blue hover:bg-folk-blue hover:text-white px-4 py-2 rounded-lg text-sm font-medium transition" %>
               <% end %>
             </div>
@@ -87,8 +87,8 @@
         </div>
       <% else %>
         <div class="text-center py-16">
-          <p class="text-gray-400 text-lg">No hackathons match your search.</p>
-          <%= link_to "Clear filters", hackathons_path, class: "text-folk-blue hover:underline mt-2 inline-block" %>
+          <p class="text-gray-400 text-lg"><%= t('hackathons.index.no_results') %></p>
+          <%= link_to t('hackathons.index.clear_filters'), hackathons_path, class: "text-folk-blue hover:underline mt-2 inline-block" %>
         </div>
       <% end %>
     <% end %>
