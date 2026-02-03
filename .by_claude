@@ -27,8 +27,8 @@ The SwarmPod curriculum is the initial content funnel that drives
 developers from localhost to FolkCoder registration.
 
 ### Key Content Documents
-- `folkcoder_homepage_content.md` — Homepage structure and copy
-- `folkcoder_next_page_content.md` — /next landing page (post-SwarmPod setup)
+- `docs/input/folkcoder_homepage_content.md` — Homepage structure and copy
+- `docs/input/folkcoder_next_page_content.md` — /next landing page (post-SwarmPod setup)
 - `folkcoder_personas_and_use_cases.md` — Three personas (Carlos, Amy, Brenda) and seven use cases
 
 ---
@@ -42,70 +42,127 @@ Progress is tracked in `docs/StepN/` folders. Each step includes:
 This mirrors how the project owner works — visual proof at each stage,
 nothing skipped, nothing assumed.
 
-### Completed Steps
+---
 
-**Step 0 — Project Init**
+## Stack Decisions
+
+- **Framework:** Vanilla Rails 8 (Hotwire/Turbo/Stimulus)
+- **CSS:** Tailwind via CDN (no npm, no build step)
+- **JS:** Import maps (no Node, no Webpack)
+- **DB:** SQLite (dev + production via Solid Cache/Queue/Cable)
+- **Deployment:** Kamal to Hostinger VPS (srv824516.hstgr.cloud)
+- **Registry:** GHCR (ghcr.io/cbiperson/folk-coder)
+- **SSL:** Let's Encrypt via kamal-proxy (auto)
+- **GitHub:** CbiPerson/folk-coder
+
+---
+
+## Infrastructure Access
+
+### Secrets (~/.swarmpod/secrets/)
+- `GITHUB_TOKEN.sh` — GitHub PAT (used for GHCR auth via Kamal)
+- `GITHUB_USERNAME.sh`, `GITHUB_ACCOUNT.sh` — CbiPerson
+- `HOSTINGER_VPS.sh` — srv824516.hstgr.cloud
+- `HOSTINGER_ACCOUNT.sh` — LaquerEric@gmail.com
+- `HOSTINGER_PASSWORD.sh` — Hostinger panel password
+- `HOSTINGER_API_TOKEN.sh` — Bearer token for Hostinger REST API
+- `ANTHROPIC_API_KEY.sh` — Claude API key
+- `Z_AI_ACCOUNT.sh`, `Z_AI_PASSWORD.sh` — Z.ai credentials
+
+### SSH
+- Key: ~/.ssh/id_ed25519 (folkcoder-deploy)
+- Installed on VPS root@srv824516.hstgr.cloud
+
+### DNS
+- Managed via Hostinger API: `PUT https://developers.hostinger.com/api/dns/v1/zones/folkcoder.com`
+- A record: folkcoder.com -> 31.97.8.47
+- CNAME: www -> folkcoder.com
+- CAA: allows letsencrypt.org (and others)
+
+### VPS Notes
+- Ubuntu Noble (24.04), kernel 6.8.0-88-generic, amd64
+- Snap Docker was replaced with official Docker CE 29.2.1 (Snap sandboxing broke Kamal's docker cp and env file access)
+- Kamal proxy listens on 80/443, terminates SSL
+
+---
+
+## Completed Steps
+
+### Step 0 — Project Init
 - Git repo initialized
 - Content MDs and README in place
 - `.claude` and `.by_claude` created
 - Claude Code session started in VS Code
 - Evidence: `docs/Step0/VsCode._git.png`, `docs/Step0/VsCode_claude.png`
 
+### Step 1 — Stack Decision + Rails Scaffold
+- Decided: vanilla Rails 8, Tailwind CDN, SQLite, import maps
+- Ran `rails new . --database=sqlite3 --skip-test --name=folk_coder`
+- All existing files (MDs, docs/) preserved
+- Removed Rails default README.md (kept our README)
+
+### Step 2 — Homepage
+- Generated PagesController with `home` action
+- Set root route to `pages#home`
+- Built full homepage from `folkcoder_homepage_content.md`:
+  Hero, How It Works, Features (4 cards), Community stats,
+  Starting Gate (SwarmPod spotlight), For Everyone (3 cards),
+  Final CTA
+- Layout includes nav bar, footer, Tailwind CDN config with
+  custom folk-* color palette
+- SVG icons for feature cards
+
+### Step 3 — /next Page
+- Added `next_page` action to PagesController
+- Route: `get '/next', to: 'pages#next_page'`
+- Built full page from `folkcoder_next_page_content.md`:
+  Congratulations hero, "What just happened", Core Philosophy
+  (5 principle cards), Curriculum CTA, Why Register (3 benefits)
+
+### Step 4 — Docker
+- Verified Rails 8 generated Dockerfile (multi-stage, production-ready)
+- Created `docker-compose.yml` (web service on port 3000, RAILS_MASTER_KEY from env)
+- Built and verified: localhost:3000 returns 200 on / and /next
+
+### Step 5 — Push to GitHub
+- Created repo via `gh repo create CbiPerson/folk-coder --public`
+- Pushed all commits to https://github.com/CbiPerson/folk-coder
+
+### Step 6 — Deploy to Hostinger VPS
+- Configured `config/deploy.yml` for Kamal:
+  - Server: srv824516.hstgr.cloud
+  - Registry: ghcr.io (CbiPerson)
+  - SSL: true, host: folkcoder.com
+- Configured `.kamal/secrets` to pull from ~/.swarmpod/secrets/
+- Enabled `config.assume_ssl` and `config.force_ssl` in production.rb
+- Set mailer host to folkcoder.com
+- Generated SSH key and installed on VPS via sshpass
+- Updated DNS A record via Hostinger API (84.32.84.32 -> 31.97.8.47)
+- Replaced Snap Docker with official Docker CE on VPS
+- Ran `kamal setup` — container healthy, SSL provisioned
+- **folkcoder.com is live** (HTTPS, 200 on / and /next)
+
 ---
 
-## Step-by-Step Plan (Taking It Slow)
+## Step-by-Step Plan (Remaining)
 
-Each step is a discrete, completable unit. No step starts until the
-previous one is reviewed and confirmed. Screenshots document each.
-
-### Step 1 — Stack Decision (DECIDED)
-**Rails.** Vanilla Rails. No JS framework bolted on, no static site
-generator. SwarmPod is Rails-native, FolkCoder is Rails-native. One
-ecosystem, one language, one set of conventions.
-
-What this means concretely:
-- Ruby on Rails 8 (Hotwire/Turbo/Stimulus for interactivity)
-- SQLite for dev, Postgres for production
-- Import maps (no Node, no Webpack, no esbuild unless forced)
-- Rails built-in auth or a simple gem (Devise, or Rails 8 auth generator)
-- Hosting TBD (Railway, Render, Fly.io, Hatchbox — all Rails-friendly)
-- Domain and DNS setup for folkcoder.com
-
-Remaining decisions for Step 1:
-- Hosting provider
-- Domain/DNS status (do you already own folkcoder.com?)
-- `rails new` now, or after hosting is sorted?
-
-### Step 2 — Landing Page (Homepage)
-Implement the homepage from `folkcoder_homepage_content.md`:
-- Hero, How It Works, Features, Community, Starting Gate, CTA
-- Responsive, clean, no over-engineering
-- Deploy to a staging URL
-
-### Step 3 — The /next Page
-Implement the post-SwarmPod redirect page from
-`folkcoder_next_page_content.md`:
-- Congratulations flow, curriculum CTA, registration hook
-- Wire the localhost redirect path
-
-### Step 4 — Registration & User Profiles
-- Auth system (email, GitHub OAuth)
+### Step 4 (next) — Registration & User Profiles
+- Auth system (Rails 8 auth generator or Devise)
 - Developer profile creation (skills, roles, collaboration style)
-- Database and user storage
+- Database migrations, user model
 
-### Step 5 — AI Infrastructure (Phase 1)
-Begin the AI-centered business layer:
+### Step 5 (next) — AI Infrastructure (Phase 1)
 - Define what "AI manages the business" means concretely
 - Candidate areas: content generation, user matching, onboarding
   automation, support, analytics, sponsor outreach
 - Choose tools and APIs (Claude API, automation frameworks)
 
-### Step 6 — Hackathon Hub
+### Step 6 (next) — Hackathon Hub
 - Hackathon directory with search/filter
 - Team formation and recruiting boards
 - Project showcase pages
 
-### Step 7 — AI Infrastructure (Phase 2)
+### Step 7 (next) — AI Infrastructure (Phase 2)
 - Smart team matching
 - Curriculum progress tracking
 - Automated community management
@@ -121,8 +178,9 @@ Begin the AI-centered business layer:
 
 ## Current Status
 
-**We are at Step 0, complete.**
-Next action: Discuss and decide Step 1 (stack selection) when ready.
+**folkcoder.com is live.**
+Homepage and /next page deployed to Hostinger VPS via Kamal.
+Next action: Registration & user profiles when ready.
 
 ---
 
@@ -132,3 +190,4 @@ Next action: Discuss and decide Step 1 (stack selection) when ready.
 - No over-engineering. Build what's needed now.
 - AI-first where it adds real value, not for show.
 - The owner reviews and approves before moving forward.
+- Stay vanilla Rails.
