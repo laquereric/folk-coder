@@ -31,7 +31,5 @@ aliases:
 volumes:
   - "folk_coder_storage:/rails/storage"
 
-asset_path: /rails/public/assets
-
 builder:
   arch: amd64
