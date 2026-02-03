@@ -115,11 +115,20 @@ test "loads page",               "/hackathons", { status: 200 }, "Hackathon Hub"
 test "has search field",         "/hackathons", "Search hackathons"
 test "has theme filter",         "/hackathons", "All Themes"
 test "has format filter",        "/hackathons", "All Formats"
+test "has region filter",        "/hackathons", "All Regions"
 test "has hackathon cards",      "/hackathons", "TreeHacks 2026"
 test "shows Virtual badge",      "/hackathons", "Virtual"
 test "shows In Person badge",    "/hackathons", "In Person"
 test "shows Hybrid badge",       "/hackathons", "Hybrid"
 test "has register links",       "/hackathons", "Register"
+puts
+
+# --- FAQ ---
+puts "FAQ"
+test "loads page",               "/faq", { status: 200 }, "FAQ"
+test "has hacking answer",       "/faq", "creative problem-solving"
+test "has hackathon answer",     "/faq", "build software projects"
+test "has hackathons link",      "/faq", "/hackathons"
 puts
 
 # --- Curriculum (requires auth) ---

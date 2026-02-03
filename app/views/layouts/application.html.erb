@@ -53,6 +53,7 @@
             <a href="#how-it-works" class="text-gray-300 hover:text-white transition">How It Works</a>
             <a href="#features" class="text-gray-300 hover:text-white transition">Features</a>
             <a href="#starting-gate" class="text-gray-300 hover:text-white transition">Starting Gate</a>
+            <%= link_to "FAQ", faq_path, class: "text-gray-300 hover:text-white transition" %>
             <% if authenticated? %>
               <span class="text-gray-300"><%= Current.user.name %></span>
               <%= button_to "Log Out", session_path, method: :delete, class: "text-gray-400 hover:text-white transition" %>

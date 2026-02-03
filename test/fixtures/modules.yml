@@ -1,0 +1,7 @@
+fundamentals:
+  id: 1
+  title: SwarmPod Fundamentals
+  description: Learn the core concepts behind SwarmPod.
+  position: 1
+  created_at: <%= Time.current %>
+  updated_at: <%= Time.current %>

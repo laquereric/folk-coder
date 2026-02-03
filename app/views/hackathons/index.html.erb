@@ -21,6 +21,11 @@
               { include_blank: "All Formats" },
               class: "bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 text-gray-100 focus:outline-none focus:border-folk-blue" %>
         </div>
+        <div>
+          <%= form.select :region, options_for_select(@regions, params[:region]),
+              { include_blank: "All Regions" },
+              class: "bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 text-gray-100 focus:outline-none focus:border-folk-blue" %>
+        </div>
         <%= form.submit "Search", class: "bg-folk-blue hover:bg-blue-600 text-white px-6 py-3 rounded-lg font-medium transition cursor-pointer" %>
       </div>
     <% end %>
@@ -65,6 +70,12 @@
                   <span>&#127991;</span>
                   <span><%= hackathon.theme %></span>
                 </div>
+                <% if hackathon.region.present? %>
+                  <div class="flex items-center gap-2 text-gray-400">
+                    <span>&#127758;</span>
+                    <span><%= hackathon.region %></span>
+                  </div>
+                <% end %>
               </div>
 
               <% if hackathon.registration_link.present? %>

@@ -16,4 +16,5 @@ Rails.application.routes.draw do
 
   root "pages#home"
   get "/next", to: "pages#next_page"
+  get "/faq", to: "pages#faq"
 end

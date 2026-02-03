@@ -16,6 +16,9 @@ class RegistrationsController < ApplicationController
     else
       render :new, status: :unprocessable_entity
     end
+  rescue ActiveRecord::RecordNotUnique
+    @user.errors.add(:email_address, "is already taken")
+    render :new, status: :unprocessable_entity
   end
 
   private
