@@ -1,0 +1,146 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+# Usage: bin/test_prod [host]
+# Default host: https://folkcoder.com
+
+require "net/http"
+require "uri"
+require "openssl"
+
+HOST = ARGV[0] || "https://folkcoder.com"
+
+def fetch(uri)
+  parsed = URI(uri)
+  http = Net::HTTP.new(parsed.host, parsed.port)
+  if parsed.scheme == "https"
+    http.use_ssl = true
+    http.verify_mode = OpenSSL::SSL::VERIFY_PEER
+    # Skip CRL check — Let's Encrypt certs trigger CRL errors on some macOS setups
+    http.verify_callback = ->(_preverify_ok, store_ctx) {
+      store_ctx.error == 0 || store_ctx.error == OpenSSL::X509::V_ERR_UNABLE_TO_GET_CRL
+    }
+  end
+  http.get(parsed.request_uri)
+end
+
+def test(name, path, *checks)
+  uri = "#{HOST}#{path}"
+  response = fetch(uri)
+
+  # Follow one redirect if needed
+  if response.is_a?(Net::HTTPRedirection)
+    location = response["location"]
+    location = "#{HOST}#{location}" if location.start_with?("/")
+    response = fetch(location)
+  end
+
+  body = response.body
+  failures = []
+
+  checks.each do |check|
+    case check
+    when String
+      failures << "missing: #{check[0..60]}" unless body.include?(check)
+    when Hash
+      check.each do |key, value|
+        case key
+        when :status
+          failures << "expected status #{value}, got #{response.code}" unless response.code == value.to_s
+        when :redirect_to
+          # Re-check original response for redirect
+          orig = fetch("#{HOST}#{path}")
+          loc = orig["location"] || ""
+          failures << "expected redirect to #{value}, got #{loc}" unless loc.include?(value)
+        end
+      end
+    end
+  end
+
+  if failures.empty?
+    Object.const_set(:PASS, PASS + 1) rescue nil
+    $pass += 1
+    puts "  \e[32mPASS\e[0m  #{name}"
+  else
+    $fail += 1
+    puts "  \e[31mFAIL\e[0m  #{name}"
+    failures.each { |f| puts "        #{f}" }
+  end
+rescue => e
+  $fail += 1
+  puts "  \e[31mERROR\e[0m #{name}: #{e.message}"
+end
+
+$pass = 0
+$fail = 0
+
+puts "Testing #{HOST}\n\n"
+
+# --- Home ---
+puts "Homepage"
+test "loads with hero",          "/", { status: 200 }, "Never Hack"
+test "Find Your Crew link",      "/", "/registration/new"
+test "Explore Hackathons link",  "/", "/hackathons"
+test "Sign Up for Free link",    "/", "Sign Up for Free"
+test "nav Sign Up link",         "/", "Sign Up"
+puts
+
+# --- Registration ---
+puts "Registration"
+test "loads form",               "/registration/new", { status: 200 }, "Create Your Account"
+test "has name field",           "/registration/new", "name"
+test "has email field",          "/registration/new", "email_address"
+test "has password field",       "/registration/new", "password"
+test "has sign-in link",         "/registration/new", "Already have an account?"
+puts
+
+# --- Sign In ---
+puts "Sign In"
+test "loads form",               "/session/new", { status: 200 }, "Sign In"
+test "has email field",          "/session/new", "email_address"
+test "has password field",       "/session/new", "password"
+test "forgot password link",     "/session/new", "/passwords/new"
+test "create account link",      "/session/new", "/registration/new"
+puts
+
+# --- Password Reset ---
+puts "Password Reset"
+test "loads form",               "/passwords/new", { status: 200 }, "Forgot Your Password"
+test "has email field",          "/passwords/new", "email_address"
+puts
+
+# --- Hackathon Hub ---
+puts "Hackathon Hub"
+test "loads page",               "/hackathons", { status: 200 }, "Hackathon Hub"
+test "has search field",         "/hackathons", "Search hackathons"
+test "has theme filter",         "/hackathons", "All Themes"
+test "has format filter",        "/hackathons", "All Formats"
+test "has hackathon cards",      "/hackathons", "TreeHacks 2026"
+test "shows Virtual badge",      "/hackathons", "Virtual"
+test "shows In Person badge",    "/hackathons", "In Person"
+test "shows Hybrid badge",       "/hackathons", "Hybrid"
+test "has register links",       "/hackathons", "Register"
+puts
+
+# --- Curriculum (requires auth) ---
+puts "Curriculum"
+test "redirects to sign in",     "/curriculum", { redirect_to: "/session/new" }
+puts
+
+# --- Next Page ---
+puts "Next Page"
+test "loads page",               "/next", { status: 200 }, "Congratulations"
+test "has SwarmPod content",     "/next", "SwarmPod"
+test "Register & Begin link",    "/next", "/registration/new"
+puts
+
+# --- Health Check ---
+puts "Health"
+test "returns 200",              "/up", { status: 200 }
+puts
+
+# --- Summary ---
+total = $pass + $fail
+puts "#{"-" * 40}"
+puts "#{total} tests: \e[32m#{$pass} passed\e[0m, \e[31m#{$fail} failed\e[0m"
+exit($fail > 0 ? 1 : 0)
