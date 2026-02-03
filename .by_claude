@@ -1,0 +1,134 @@
+# .by_claude — Claude's Working Notes for FolkCoder
+
+## What This File Is
+This is Claude's own reference document for the folk-coder project.
+It captures understanding, decisions, and the step-by-step plan as
+work progresses. Updated as each step completes.
+
+---
+
+## Project Understanding
+
+FolkCoder is two things:
+
+1. **A web presence** (folkcoder.com) — a social platform where
+   developers find hackathon teammates, discover events, showcase
+   projects, and access structured curricula like SwarmPod.
+
+2. **An AI-centered business infrastructure** — the backend systems,
+   tooling, and workflows (powered by AI) that manage the business
+   FolkCoder generates: user onboarding, content delivery, community
+   management, partner/sponsor coordination.
+
+SwarmPod (swarmpod-core) is the first featured framework on the
+platform. It provides one-command Rails app scaffolding with
+multi-repo architecture, Docker, and secrets management baked in.
+The SwarmPod curriculum is the initial content funnel that drives
+developers from localhost to FolkCoder registration.
+
+### Key Content Documents
+- `folkcoder_homepage_content.md` — Homepage structure and copy
+- `folkcoder_next_page_content.md` — /next landing page (post-SwarmPod setup)
+- `folkcoder_personas_and_use_cases.md` — Three personas (Carlos, Amy, Brenda) and seven use cases
+
+---
+
+## Documentation Convention
+
+Progress is tracked in `docs/StepN/` folders. Each step includes:
+- Screenshots showing the state of the work
+- Any relevant notes or artifacts
+
+This mirrors how the project owner works — visual proof at each stage,
+nothing skipped, nothing assumed.
+
+### Completed Steps
+
+**Step 0 — Project Init**
+- Git repo initialized
+- Content MDs and README in place
+- `.claude` and `.by_claude` created
+- Claude Code session started in VS Code
+- Evidence: `docs/Step0/VsCode._git.png`, `docs/Step0/VsCode_claude.png`
+
+---
+
+## Step-by-Step Plan (Taking It Slow)
+
+Each step is a discrete, completable unit. No step starts until the
+previous one is reviewed and confirmed. Screenshots document each.
+
+### Step 1 — Stack Decision (DECIDED)
+**Rails.** Vanilla Rails. No JS framework bolted on, no static site
+generator. SwarmPod is Rails-native, FolkCoder is Rails-native. One
+ecosystem, one language, one set of conventions.
+
+What this means concretely:
+- Ruby on Rails 8 (Hotwire/Turbo/Stimulus for interactivity)
+- SQLite for dev, Postgres for production
+- Import maps (no Node, no Webpack, no esbuild unless forced)
+- Rails built-in auth or a simple gem (Devise, or Rails 8 auth generator)
+- Hosting TBD (Railway, Render, Fly.io, Hatchbox — all Rails-friendly)
+- Domain and DNS setup for folkcoder.com
+
+Remaining decisions for Step 1:
+- Hosting provider
+- Domain/DNS status (do you already own folkcoder.com?)
+- `rails new` now, or after hosting is sorted?
+
+### Step 2 — Landing Page (Homepage)
+Implement the homepage from `folkcoder_homepage_content.md`:
+- Hero, How It Works, Features, Community, Starting Gate, CTA
+- Responsive, clean, no over-engineering
+- Deploy to a staging URL
+
+### Step 3 — The /next Page
+Implement the post-SwarmPod redirect page from
+`folkcoder_next_page_content.md`:
+- Congratulations flow, curriculum CTA, registration hook
+- Wire the localhost redirect path
+
+### Step 4 — Registration & User Profiles
+- Auth system (email, GitHub OAuth)
+- Developer profile creation (skills, roles, collaboration style)
+- Database and user storage
+
+### Step 5 — AI Infrastructure (Phase 1)
+Begin the AI-centered business layer:
+- Define what "AI manages the business" means concretely
+- Candidate areas: content generation, user matching, onboarding
+  automation, support, analytics, sponsor outreach
+- Choose tools and APIs (Claude API, automation frameworks)
+
+### Step 6 — Hackathon Hub
+- Hackathon directory with search/filter
+- Team formation and recruiting boards
+- Project showcase pages
+
+### Step 7 — AI Infrastructure (Phase 2)
+- Smart team matching
+- Curriculum progress tracking
+- Automated community management
+- Business analytics and reporting
+
+### Future Steps
+- Sponsor/partner portal
+- Payment and subscription infrastructure
+- Mobile experience
+- Community features (forums, messaging)
+
+---
+
+## Current Status
+
+**We are at Step 0, complete.**
+Next action: Discuss and decide Step 1 (stack selection) when ready.
+
+---
+
+## Principles
+- Take it slow. One step at a time.
+- Document everything visually (screenshots in docs/StepN/).
+- No over-engineering. Build what's needed now.
+- AI-first where it adds real value, not for show.
+- The owner reviews and approves before moving forward.

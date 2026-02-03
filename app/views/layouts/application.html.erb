@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html class="h-full">
+  <head>
+    <title><%= content_for(:title) || "FolkCoder" %></title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="application-name" content="FolkCoder">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="description" content="The social platform where builders connect, teams form, and innovation happens.">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= yield :head %>
+
+    <link rel="icon" href="/icon.png" type="image/png">
+    <link rel="icon" href="/icon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="/icon.png">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              folk: {
+                dark: '#0f172a',
+                blue: '#3b82f6',
+                purple: '#8b5cf6',
+                green: '#10b981',
+                orange: '#f59e0b',
+              }
+            }
+          }
+        }
+      }
+    </script>
+
+    <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags %>
+  </head>
+
+  <body class="h-full bg-folk-dark text-gray-100 antialiased">
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full bg-folk-dark/90 backdrop-blur-sm border-b border-gray-800 z-50">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between items-center h-16">
+          <div class="flex items-center">
+            <%= link_to root_path, class: "text-2xl font-bold" do %>
+              <span class="text-folk-blue">Folk</span><span class="text-folk-green">Coder</span>
+            <% end %>
+          </div>
+          <div class="hidden md:flex items-center space-x-8">
+            <a href="#how-it-works" class="text-gray-300 hover:text-white transition">How It Works</a>
+            <a href="#features" class="text-gray-300 hover:text-white transition">Features</a>
+            <a href="#starting-gate" class="text-gray-300 hover:text-white transition">Starting Gate</a>
+            <a href="#" class="bg-folk-blue hover:bg-blue-600 text-white px-4 py-2 rounded-lg font-medium transition">Sign Up</a>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <main>
+      <%= yield %>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 border-t border-gray-800">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div class="flex flex-col md:flex-row justify-between items-center">
+          <div class="mb-4 md:mb-0">
+            <span class="text-xl font-bold">
+              <span class="text-folk-blue">Folk</span><span class="text-folk-green">Coder</span>
+            </span>
+            <p class="text-gray-500 text-sm mt-1">Where builders connect.</p>
+          </div>
+          <div class="text-gray-500 text-sm">
+            &copy; <%= Date.today.year %> FolkCoder. All rights reserved.
+          </div>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>
