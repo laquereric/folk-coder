@@ -40,6 +40,11 @@
   </head>
 
   <body class="h-full bg-folk-dark text-gray-100 antialiased">
+    <!-- Version Badge -->
+    <div class="fixed top-1 right-2 z-[60] text-[10px] text-gray-500 font-mono">
+      v<%= ApplicationController::APP_VERSION %>@<%= ApplicationController::GIT_SHA %>
+    </div>
+
     <!-- Navigation -->
     <nav class="fixed top-0 w-full bg-folk-dark/90 backdrop-blur-sm border-b border-gray-800 z-50">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

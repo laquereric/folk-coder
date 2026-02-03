@@ -6,6 +6,9 @@ class ApplicationController < ActionController::Base
   # Changes to the importmap will invalidate the etag for HTML responses
   stale_when_importmap_changes
 
+  APP_VERSION = Rails.root.join("VERSION").read.strip
+  GIT_SHA = ENV.fetch("GIT_SHA") { `git rev-parse --short HEAD 2>/dev/null`.strip.presence || "dev" }
+
   before_action :set_locale
 
   def default_url_options
