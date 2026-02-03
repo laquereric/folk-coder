@@ -53,7 +53,12 @@
             <a href="#how-it-works" class="text-gray-300 hover:text-white transition">How It Works</a>
             <a href="#features" class="text-gray-300 hover:text-white transition">Features</a>
             <a href="#starting-gate" class="text-gray-300 hover:text-white transition">Starting Gate</a>
-            <a href="#" class="bg-folk-blue hover:bg-blue-600 text-white px-4 py-2 rounded-lg font-medium transition">Sign Up</a>
+            <% if authenticated? %>
+              <span class="text-gray-300"><%= Current.user.name %></span>
+              <%= button_to "Log Out", session_path, method: :delete, class: "text-gray-400 hover:text-white transition" %>
+            <% else %>
+              <%= link_to "Sign Up", new_registration_path, class: "bg-folk-blue hover:bg-blue-600 text-white px-4 py-2 rounded-lg font-medium transition" %>
+            <% end %>
           </div>
         </div>
       </div>

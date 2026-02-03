@@ -1,0 +1,53 @@
+<section class="pt-32 pb-20 px-4">
+  <div class="max-w-4xl mx-auto">
+    <h1 class="text-4xl font-bold mb-4">SwarmPod Curriculum</h1>
+    <p class="text-gray-400 text-lg mb-8">Master the tools and workflows used by professional development teams.</p>
+
+    <!-- Progress Bar -->
+    <div class="bg-gray-800 border border-gray-700 rounded-xl p-6 mb-10">
+      <div class="flex justify-between items-center mb-3">
+        <span class="text-sm font-medium text-gray-300">Your Progress</span>
+        <span class="text-sm text-gray-400"><%= @completed_count %> / <%= @total_lessons %> lessons</span>
+      </div>
+      <div class="w-full bg-gray-700 rounded-full h-3">
+        <% progress = @total_lessons > 0 ? (@completed_count.to_f / @total_lessons * 100).round : 0 %>
+        <div class="bg-folk-green rounded-full h-3 transition-all duration-500" style="width: <%= progress %>%"></div>
+      </div>
+      <% if progress == 100 %>
+        <p class="text-folk-green text-sm mt-3 font-medium">Curriculum complete!</p>
+      <% end %>
+    </div>
+
+    <!-- Modules -->
+    <% @modules.each do |mod| %>
+      <div class="mb-10">
+        <h2 class="text-2xl font-bold mb-2"><%= mod.title %></h2>
+        <p class="text-gray-400 mb-6"><%= mod.description %></p>
+
+        <div class="space-y-3">
+          <% mod.lessons.each_with_index do |lesson, i| %>
+            <% completed = lesson.completed_by?(Current.user) %>
+            <%= link_to lesson_path(lesson), class: "block bg-gray-800/50 border border-gray-700 rounded-lg p-5 hover:border-folk-blue transition group" do %>
+              <div class="flex items-center gap-4">
+                <div class="flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold <%= completed ? 'bg-folk-green/20 text-folk-green' : 'bg-gray-700 text-gray-400' %>">
+                  <% if completed %>
+                    &#10003;
+                  <% else %>
+                    <%= i + 1 %>
+                  <% end %>
+                </div>
+                <div class="flex-1">
+                  <h3 class="font-semibold group-hover:text-folk-blue transition"><%= lesson.title %></h3>
+                  <p class="text-gray-400 text-sm"><%= lesson.description %></p>
+                </div>
+                <div class="text-gray-600 group-hover:text-folk-blue transition">
+                  &rarr;
+                </div>
+              </div>
+            <% end %>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</section>

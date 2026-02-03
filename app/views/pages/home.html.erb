@@ -8,12 +8,8 @@
       FolkCoder is the social platform where builders connect, teams form, and innovation happens. Find your crew for any hackathon, or discover your next great idea.
     </p>
     <div class="flex flex-col sm:flex-row gap-4 justify-center">
-      <a href="#" class="bg-folk-blue hover:bg-blue-600 text-white px-8 py-4 rounded-lg text-lg font-semibold transition">
-        Find Your Crew
-      </a>
-      <a href="#" class="border border-gray-600 hover:border-gray-400 text-gray-300 hover:text-white px-8 py-4 rounded-lg text-lg font-medium transition">
-        Explore Hackathons
-      </a>
+      <%= link_to "Find Your Crew", new_registration_path, class: "bg-folk-blue hover:bg-blue-600 text-white px-8 py-4 rounded-lg text-lg font-semibold transition" %>
+      <%= link_to "Explore Hackathons", hackathons_path, class: "border border-gray-600 hover:border-gray-400 text-gray-300 hover:text-white px-8 py-4 rounded-lg text-lg font-medium transition" %>
     </div>
   </div>
 </section>
@@ -149,8 +145,6 @@
   <div class="max-w-3xl mx-auto text-center">
     <h2 class="text-4xl md:text-5xl font-bold mb-6">Ready to Build?</h2>
     <p class="text-xl text-gray-400 mb-10">Your next team, your next project, your next big idea — it all starts on FolkCoder.</p>
-    <a href="#" class="bg-folk-blue hover:bg-blue-600 text-white px-10 py-4 rounded-lg text-lg font-semibold transition">
-      Sign Up for Free
-    </a>
+    <%= link_to "Sign Up for Free", new_registration_path, class: "bg-folk-blue hover:bg-blue-600 text-white px-10 py-4 rounded-lg text-lg font-semibold transition" %>
   </div>
 </section>
