@@ -145,8 +145,8 @@ puts
 
 # --- Locale / i18n ---
 puts "Locale / i18n"
-test "Spanish home loads",       "/es", { status: 200 }, "Never Hack"
-test "French hackathons loads",  "/fr/hackathons", { status: 200 }, "Hackathon Hub"
+test "Spanish home loads",       "/es", { status: 200 }, "Nunca Hackees"
+test "French hackathons loads",  "/fr/hackathons", { status: 200 }, "Hub Hackathon"
 test "Portuguese FAQ loads",     "/pt/faq", { status: 200 }, "FAQ"
 test "explicit /en/ prefix",     "/en/hackathons", { status: 200 }, "Hackathon Hub"
 test "lang switcher on English", "/", "language-switcher"
