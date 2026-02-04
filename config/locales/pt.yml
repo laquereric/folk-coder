@@ -114,8 +114,56 @@ pt:
         <span class="text-folk-orange">híbridos</span>. Alguns focam em temas específicos como
         IA, clima, saúde ou fintech. A maioria é gratuita, e muitos oferecem mentoria,
         workshops e networking além da competição.
+      q3_title: "Por Que Aprender IA e Importante?"
+      q3_answer_html: >-
+        A inteligencia artificial esta transformando <strong class="text-white">todas as industrias</strong>&mdash;da
+        saude e financas a educacao, entretenimento e muito mais. Entender as ferramentas de IA nao e
+        apenas algo desejavel; esta se tornando essencial para se manter relevante no mercado de trabalho moderno. Novas
+        carreiras como <span class="text-folk-purple">engenharia de prompts de IA</span>,
+        <span class="text-folk-green">operacoes de aprendizado de maquina</span> e
+        <span class="text-folk-orange">gestao de produtos de IA</span> estao surgindo todos os dias. Os hackathons
+        sao uma das melhores formas de obter experiencia pratica com IA&mdash;voce construira projetos reais,
+        aprendera com seus colegas e descobrira como essas ferramentas podem amplificar suas habilidades. Seja voce
+        desenvolvedor, designer ou profissional de negocios, aprender IA agora te coloca a frente.
       cta_text: "Pronto para encontrar seu primeiro hackathon?"
       cta_button: "Explorar Hackathons"
+
+    ai_risks_benefits:
+      title: "Riscos e Beneficios da IA"
+      subtitle: "Entendendo tanto a promessa quanto o perigo da inteligencia artificial."
+      risks_title: "Riscos"
+      risks_items_html: >-
+        <li><strong class="text-white">Deslocamento de empregos</strong> &mdash; A automacao pode eliminar vagas mais rapido do que novas sao criadas, especialmente em tarefas rotineiras.</li>
+        <li><strong class="text-white">Vies e equidade</strong> &mdash; Sistemas de IA podem perpetuar e amplificar vieses existentes nos dados de treinamento.</li>
+        <li><strong class="text-white">Erosao da privacidade</strong> &mdash; A coleta de dados em larga escala levanta serias preocupacoes sobre vigilancia e consentimento.</li>
+        <li><strong class="text-white">Ameacas de seguranca</strong> &mdash; Ciberataques e deepfakes impulsionados por IA representam novos riscos para individuos e instituicoes.</li>
+        <li><strong class="text-white">Concentracao de poder</strong> &mdash; Um pequeno numero de empresas e governos pode controlar capacidades transformadoras de IA.</li>
+      benefits_title: "Beneficios"
+      benefits_items_html: >-
+        <li><strong class="text-white">Avancos na saude</strong> &mdash; A IA acelera a descoberta de medicamentos, diagnosticos e medicina personalizada.</li>
+        <li><strong class="text-white">Ganhos de produtividade</strong> &mdash; Automatizar trabalho repetitivo libera os humanos para o pensamento criativo e estrategico.</li>
+        <li><strong class="text-white">Descoberta cientifica</strong> &mdash; A IA ajuda pesquisadores a analisar conjuntos de dados complexos e descobrir padroes invisiveis para os humanos.</li>
+        <li><strong class="text-white">Acesso a educacao</strong> &mdash; Tutores de IA personalizados podem democratizar a aprendizagem de alta qualidade em todo o mundo.</li>
+        <li><strong class="text-white">Crescimento economico</strong> &mdash; Novas industrias e carreiras estao surgindo em torno do desenvolvimento, implantacao e governanca da IA.</li>
+      essay_badge: "Ensaio em Destaque"
+      essay_title: "Machines of Loving Grace"
+      essay_author: "Dario Amodei, CEO da Anthropic"
+      essay_summary_html: >-
+        Neste ensaio marcante, Dario Amodei explora como uma IA poderosa poderia transformar cinco dominios-chave:
+        <strong class="text-white">saude</strong> (comprimindo um seculo de progresso em uma decada),
+        <strong class="text-white">neurociencia</strong> (tratando doencas mentais e cognitivas),
+        <strong class="text-white">economia</strong> (tirando nacoes em desenvolvimento da pobreza),
+        <strong class="text-white">governanca</strong> (fortalecendo a democracia e os direitos humanos) e
+        <strong class="text-white">trabalho</strong> (redefinindo significado e proposito em um mundo aumentado pela IA).
+      essay_risks_html: >-
+        Amodei tambem levanta riscos criticos: <span class="text-folk-orange">desigualdade</span> entre nacoes
+        com e sem acesso a IA, <span class="text-folk-orange">captura autoritaria</span> de sistemas de IA,
+        e <span class="text-folk-orange">deslocamento da forca de trabalho</span> durante o periodo de transicao.
+      essay_timeline_html: >-
+        Cronologia: Amodei sugere que a IA poderosa pode chegar <strong class="text-white">ja em 2026</strong>,
+        com uma <strong class="text-white">janela de transformacao de 5 a 10 anos</strong> nesses dominios.
+      essay_link_text: "Ler o ensaio completo"
+      essay_summary_link_text: "Ler um resumo no Medium"
 
     next_page:
       hero_title: "Parabéns!"

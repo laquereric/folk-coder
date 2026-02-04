@@ -11,4 +11,7 @@ class PagesController < ApplicationController
 
   def faq
   end
+
+  def ai_risks_benefits
+  end
 end

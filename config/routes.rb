@@ -18,5 +18,6 @@ Rails.application.routes.draw do
     root "pages#home"
     get "/next", to: "pages#next_page"
     get "/faq", to: "pages#faq"
+    get "/ai-risks-benefits", to: "pages#ai_risks_benefits"
   end
 end

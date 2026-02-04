@@ -118,8 +118,57 @@ en:
         <span class="text-folk-orange">hybrid</span>. Some focus on specific themes like
         AI, climate, health, or fintech. Most are free to enter, and many offer mentorship,
         workshops, and networking alongside the competition.
+      q3_title: "Why Is Learning AI Important?"
+      q3_answer_html: >-
+        Artificial intelligence is transforming <strong class="text-white">every industry</strong>&mdash;from
+        healthcare and finance to education, entertainment, and beyond. Understanding AI tools isn't just
+        a nice-to-have; it's becoming essential for staying relevant in the modern workforce. New career
+        paths like <span class="text-folk-purple">AI prompt engineering</span>,
+        <span class="text-folk-green">machine learning operations</span>, and
+        <span class="text-folk-orange">AI product management</span> are emerging every day. Hackathons
+        are one of the best ways to get hands-on experience with AI&mdash;you'll build real projects,
+        learn from peers, and discover how these tools can amplify your skills. Whether you're a
+        developer, designer, or business professional, learning AI now puts you ahead of the curve.
       cta_text: "Ready to find your first hackathon?"
       cta_button: "Browse Hackathons"
+
+    # === Pages: AI Risks & Benefits ===
+    ai_risks_benefits:
+      title: "AI Risks & Benefits"
+      subtitle: "Understanding both the promise and the peril of artificial intelligence."
+      risks_title: "Risks"
+      risks_items_html: >-
+        <li><strong class="text-white">Job displacement</strong> &mdash; Automation may eliminate roles faster than new ones are created, especially in routine tasks.</li>
+        <li><strong class="text-white">Bias & fairness</strong> &mdash; AI systems can perpetuate and amplify existing biases in training data.</li>
+        <li><strong class="text-white">Privacy erosion</strong> &mdash; Large-scale data collection raises serious concerns about surveillance and consent.</li>
+        <li><strong class="text-white">Security threats</strong> &mdash; AI-powered cyberattacks and deepfakes pose new risks to individuals and institutions.</li>
+        <li><strong class="text-white">Concentration of power</strong> &mdash; A small number of companies and governments may control transformative AI capabilities.</li>
+      benefits_title: "Benefits"
+      benefits_items_html: >-
+        <li><strong class="text-white">Healthcare breakthroughs</strong> &mdash; AI accelerates drug discovery, diagnostics, and personalized medicine.</li>
+        <li><strong class="text-white">Productivity gains</strong> &mdash; Automating repetitive work frees humans for creative and strategic thinking.</li>
+        <li><strong class="text-white">Scientific discovery</strong> &mdash; AI helps researchers analyze complex datasets and uncover patterns invisible to humans.</li>
+        <li><strong class="text-white">Education access</strong> &mdash; Personalized AI tutors can democratize high-quality learning worldwide.</li>
+        <li><strong class="text-white">Economic growth</strong> &mdash; New industries and career paths are emerging around AI development, deployment, and governance.</li>
+      essay_badge: "Featured Essay"
+      essay_title: "Machines of Loving Grace"
+      essay_author: "Dario Amodei, CEO of Anthropic"
+      essay_summary_html: >-
+        In this landmark essay, Dario Amodei explores how powerful AI could transform five key domains:
+        <strong class="text-white">health</strong> (compressing a century of progress into a decade),
+        <strong class="text-white">neuroscience</strong> (treating mental illness and cognitive disease),
+        <strong class="text-white">economics</strong> (lifting developing nations out of poverty),
+        <strong class="text-white">governance</strong> (strengthening democracy and human rights), and
+        <strong class="text-white">work</strong> (redefining meaning and purpose in an AI-augmented world).
+      essay_risks_html: >-
+        Amodei also raises critical risks: <span class="text-folk-orange">inequality</span> between nations
+        with and without AI access, <span class="text-folk-orange">authoritarian capture</span> of AI systems,
+        and <span class="text-folk-orange">workforce displacement</span> during the transition period.
+      essay_timeline_html: >-
+        Timeline: Amodei suggests powerful AI could arrive <strong class="text-white">as early as 2026</strong>,
+        with a <strong class="text-white">5&ndash;10 year transformation window</strong> across these domains.
+      essay_link_text: "Read the full essay"
+      essay_summary_link_text: "Read a summary on Medium"
 
     # === Pages: Next Page ===
     next_page:
