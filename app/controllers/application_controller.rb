@@ -8,6 +8,7 @@ class ApplicationController < ActionController::Base
 
   APP_VERSION = Rails.root.join("VERSION").read.strip
   GIT_SHA = ENV.fetch("GIT_SHA") { `git rev-parse --short HEAD 2>/dev/null`.strip.presence || "dev" }
+  GIT_DIRTY = ENV.fetch("GIT_DIRTY", nil) || (`git status --porcelain 2>/dev/null`.strip.present? ? "dirty" : "")
 
   before_action :set_locale
 
