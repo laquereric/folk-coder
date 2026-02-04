@@ -50,7 +50,7 @@ fr:
       starting_gate_cta: "En savoir plus sur SwarmPod"
       starting_gate_2_badge: "Application demo"
       starting_gate_2_name: "Claude on Rails"
-      starting_gate_2_text_html: "Voyez SwarmPod en action. <strong class=\"text-gray-200\">Claude on Rails</strong> est une application Rails de demonstration preconfiguree avec les agents swarm claude-on-rails. Clonez-la, explorez le code et decouvrez les flux de travail agentiques dans un vrai projet Rails."
+      starting_gate_2_text_html: "Curieux de decouvrir la programmation agentique ? <strong class=\"text-gray-200\">Claude on Rails</strong> est une application Rails de demonstration preconfiguree avec les agents swarm claude-on-rails. Clonez-la, explorez le code et decouvrez les flux de travail agentiques dans un vrai projet Rails."
       starting_gate_2_cta: "Explorer la demo"
       starting_gate_partner_html: "Vous souhaitez mettre en avant votre framework ? <a href=\"#\" class=\"text-folk-blue hover:underline\">Devenez partenaire</a>"
       for_everyone_title: "Une plateforme pour tout l'univers des hackathons"
