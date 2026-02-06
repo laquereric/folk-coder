@@ -1,3 +1,10 @@
+# Founder user for local development
+founder = User.find_or_create_by!(email_address: "founder@folkcoder.com") do |u|
+  u.name = "Founder"
+  u.password = "founder123"
+end
+puts "Seeded founder user: #{founder.email_address} (password: founder123)"
+
 # Curriculum: SwarmPod Fundamentals
 mod = CurriculumModule.find_or_create_by!(title: "SwarmPod Fundamentals") do |m|
   m.description = "Learn the core concepts behind SwarmPod's architecture and workflow."
