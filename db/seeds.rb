@@ -3174,6 +3174,43 @@ data_driven_lessons = [
 
       ---
 
+      **State of the Art: 2017 → 2026**
+
+      Since the 2017 publication, the data-driven landscape has evolved significantly. Two Ruby gems now bring these patterns natively to Rails:
+
+      **[rails-multistore](https://github.com/laquereric/rails-multistore)** - Unified interface for managing multiple data stores in Rails. Configure Elasticsearch, MarkLogic, vector databases, and other stores with a single DSL. Push and query across all stores simultaneously with ActiveJob-powered async operations.
+
+      ```ruby
+      class Article < ActiveRecord::Base
+        include RailsMultistore::Model
+
+        multistore do
+          store :search, type: :elasticsearch, url: ENV["ES_URL"]
+          store :analytics, type: :marklogic, url: ENV["ML_URL"]
+        end
+      end
+      ```
+
+      **[medallion](https://github.com/laquereric/medallion-gem)** - Medallion architecture (Bronze/Silver/Gold) for progressive data quality. Raw data lands in Bronze, gets cleansed to Silver, and curated to Gold with full lineage tracking.
+
+      ```ruby
+      # Ingest raw data
+      bronze = Bronze::User.create!(name: "john doe", email: "JOHN@EXAMPLE.COM")
+
+      # Curate with transformations
+      silver = bronze.curate_to_silver(Silver::User) do |src, tgt|
+        tgt.name = src.name.titleize
+        tgt.email = src.email.downcase
+      end
+
+      # Full lineage
+      silver.lineage  # => { bronze: #<Bronze::User>, silver: #<Silver::User> }
+      ```
+
+      These tools embody the data-driven principles in idiomatic Rails, eliminating the need for external ETL pipelines or separate data platforms.
+
+      ---
+
       *Based on "Defining Data-Driven Software Development" by Eric Laquer (O'Reilly, 2017).*
 
       **[Download the free PDF report](/downloads/DefiningDataDrivenSoftwareDevelopment.pdf)**

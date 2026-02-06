@@ -1,3 +1,19 @@
+GIT
+  remote: https://github.com/laquereric/medallion-gem.git
+  revision: a265b7cdd9b683933798485dcca722edeb84029a
+  specs:
+    medallion (0.1.0)
+      activerecord (>= 7.0)
+      activesupport (>= 7.0)
+
+GIT
+  remote: https://github.com/laquereric/rails-multistore.git
+  revision: 24129f592bf064f2b398323e1f53082aa1ed62c7
+  specs:
+    rails-multistore (0.1.0)
+      activejob (>= 7.0)
+      rails (>= 7.0)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -375,9 +391,11 @@ DEPENDENCIES
   importmap-rails
   jbuilder
   kamal
+  medallion!
   propshaft
   puma (>= 5.0)
   rails (~> 8.1.2)
+  rails-multistore!
   redcarpet
   rubocop-rails-omakase
   solid_cable
@@ -447,6 +465,7 @@ CHECKSUMS
   loofah (2.25.0) sha256=df5ed7ac3bac6a4ec802df3877ee5cc86d027299f8952e6243b3dac446b060e6
   mail (2.9.0) sha256=6fa6673ecd71c60c2d996260f9ee3dd387d4673b8169b502134659ece6d34941
   marcel (1.1.0) sha256=fdcfcfa33cc52e93c4308d40e4090a5d4ea279e160a7f6af988260fa970e0bee
+  medallion (0.1.0)
   mini_magick (5.3.1) sha256=29395dfd76badcabb6403ee5aff6f681e867074f8f28ce08d78661e9e4a351c4
   mini_mime (1.1.5) sha256=8681b7e2e4215f2a159f9400b5816d85e9d8c6c6b491e96a12797e798f8bccef
   minitest (6.0.1) sha256=7854c74f48e2e975969062833adc4013f249a4b212f5e7b9d5c040bf838d54bb
@@ -484,6 +503,7 @@ CHECKSUMS
   rails (8.1.2) sha256=5069061b23dfa8706b9f0159ae8b9d35727359103178a26962b868a680ba7d95
   rails-dom-testing (2.3.0) sha256=8acc7953a7b911ca44588bf08737bc16719f431a1cc3091a292bca7317925c1d
   rails-html-sanitizer (1.6.2) sha256=35fce2ca8242da8775c83b6ba9c1bcaad6751d9eb73c1abaa8403475ab89a560
+  rails-multistore (0.1.0)
   railties (8.1.2) sha256=1289ece76b4f7668fc46d07e55cc992b5b8751f2ad85548b7da351b8c59f8055
   rainbow (3.1.1) sha256=039491aa3a89f42efa1d6dec2fc4e62ede96eb6acd95e52f1ad581182b79bc6a
   rake (13.3.1) sha256=8c9e89d09f66a26a01264e7e3480ec0607f0c497a861ef16063604b1b08eb19c
