@@ -3,7 +3,7 @@ class JourneyController < ApplicationController
 
   def show
     @user = Current.user
-    @modules = CurriculumModule.includes(:lessons).order(:position)
+    @modules = CurriculumModule.includes(:lessons, :prerequisite_module).order(:position)
     @total_lessons = Lesson.count
     @completed_lessons = @user.completed_lessons.to_a
     @completed_count = @completed_lessons.size
@@ -45,7 +45,12 @@ class JourneyController < ApplicationController
 
   def find_next_lesson
     completed_ids = @completed_lessons.map(&:id)
-    Lesson.where.not(id: completed_ids).order(:position).first
+    # Only consider lessons from unlocked modules
+    unlocked_module_ids = @modules.select { |m| m.unlocked_for?(@user) }.map(&:id)
+    Lesson.where(curriculum_module_id: unlocked_module_ids)
+          .where.not(id: completed_ids)
+          .order(:curriculum_module_id, :position)
+          .first
   end
 
   def calculate_milestones

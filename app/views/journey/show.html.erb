@@ -47,35 +47,68 @@
           <h2 class="text-xl font-bold mb-6">Curriculum Roadmap</h2>
 
           <% @modules.each_with_index do |mod, mod_index| %>
+            <% locked = mod.locked_for?(@user) %>
+            <% module_completed = mod.completed_by?(@user) %>
             <div class="mb-8 last:mb-0">
               <div class="flex items-center gap-3 mb-4">
-                <div class="w-8 h-8 rounded-full bg-folk-purple/20 text-folk-purple flex items-center justify-center font-bold text-sm">
-                  <%= mod_index + 1 %>
+                <div class="w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm <%= locked ? 'bg-gray-700 text-gray-500' : module_completed ? 'bg-folk-green/20 text-folk-green' : 'bg-folk-purple/20 text-folk-purple' %>">
+                  <% if locked %>
+                    &#128274;
+                  <% elsif module_completed %>
+                    &#10003;
+                  <% else %>
+                    <%= mod_index + 1 %>
+                  <% end %>
                 </div>
-                <h3 class="font-semibold text-lg"><%= mod.title %></h3>
+                <h3 class="font-semibold text-lg <%= locked ? 'text-gray-500' : '' %>"><%= mod.title %></h3>
+                <% if locked %>
+                  <span class="text-xs text-gray-500">Locked</span>
+                <% elsif module_completed %>
+                  <span class="text-xs text-folk-green">Complete</span>
+                <% end %>
               </div>
 
-              <div class="ml-4 border-l-2 border-gray-700 pl-6 space-y-3">
+              <% if locked %>
+                <% prereqs = mod.all_prerequisites.reject { |p| p.completed_by?(@user) } %>
+                <% if prereqs.any? %>
+                  <div class="ml-12 mb-4 text-sm text-folk-orange">
+                    Complete <%= prereqs.map { |p| "\"#{p.title}\"" }.join(", ") %> to unlock
+                  </div>
+                <% end %>
+              <% end %>
+
+              <div class="ml-4 border-l-2 <%= locked ? 'border-gray-800' : 'border-gray-700' %> pl-6 space-y-3 <%= locked ? 'opacity-50' : '' %>">
                 <% mod.lessons.each_with_index do |lesson, i| %>
                   <% completed = lesson.completed_by?(@user) %>
                   <% is_next = @next_lesson&.id == lesson.id %>
-                  <%= link_to lesson_path(lesson), class: "flex items-center gap-3 p-3 rounded-lg transition #{completed ? 'bg-folk-green/10 border border-folk-green/30' : is_next ? 'bg-folk-blue/10 border border-folk-blue/30' : 'bg-gray-700/30 hover:bg-gray-700/50'}" do %>
-                    <div class="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold <%= completed ? 'bg-folk-green text-white' : is_next ? 'bg-folk-blue text-white' : 'bg-gray-600 text-gray-300' %>">
-                      <% if completed %>
-                        &#10003;
-                      <% else %>
-                        <%= i + 1 %>
-                      <% end %>
-                    </div>
-                    <div class="flex-1 min-w-0">
-                      <div class="font-medium truncate <%= completed ? 'text-folk-green' : is_next ? 'text-folk-blue' : 'text-gray-300' %>">
-                        <%= lesson.title %>
+                  <% if locked %>
+                    <div class="flex items-center gap-3 p-3 rounded-lg bg-gray-800/30 cursor-not-allowed">
+                      <div class="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold bg-gray-700 text-gray-500">
+                        &#128274;
                       </div>
-                      <% if is_next %>
-                        <div class="text-folk-blue text-xs font-medium">Up Next</div>
-                      <% end %>
+                      <div class="flex-1 min-w-0">
+                        <div class="font-medium truncate text-gray-500"><%= lesson.title %></div>
+                      </div>
                     </div>
-                    <div class="text-gray-500">&rarr;</div>
+                  <% else %>
+                    <%= link_to lesson_path(lesson), class: "flex items-center gap-3 p-3 rounded-lg transition #{completed ? 'bg-folk-green/10 border border-folk-green/30' : is_next ? 'bg-folk-blue/10 border border-folk-blue/30' : 'bg-gray-700/30 hover:bg-gray-700/50'}" do %>
+                      <div class="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold <%= completed ? 'bg-folk-green text-white' : is_next ? 'bg-folk-blue text-white' : 'bg-gray-600 text-gray-300' %>">
+                        <% if completed %>
+                          &#10003;
+                        <% else %>
+                          <%= i + 1 %>
+                        <% end %>
+                      </div>
+                      <div class="flex-1 min-w-0">
+                        <div class="font-medium truncate <%= completed ? 'text-folk-green' : is_next ? 'text-folk-blue' : 'text-gray-300' %>">
+                          <%= lesson.title %>
+                        </div>
+                        <% if is_next %>
+                          <div class="text-folk-blue text-xs font-medium">Up Next</div>
+                        <% end %>
+                      </div>
+                      <div class="text-gray-500">&rarr;</div>
+                    <% end %>
                   <% end %>
                 <% end %>
               </div>

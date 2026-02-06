@@ -20,30 +20,65 @@
 
     <!-- Modules -->
     <% @modules.each do |mod| %>
+      <% locked = mod.locked_for?(Current.user) %>
+      <% module_completed = mod.completed_by?(Current.user) %>
       <div class="mb-10">
-        <h2 class="text-2xl font-bold mb-2"><%= mod.title %></h2>
-        <p class="text-gray-400 mb-6"><%= mod.description %></p>
+        <div class="flex items-center gap-3 mb-2">
+          <h2 class="text-2xl font-bold <%= locked ? 'text-gray-500' : '' %>"><%= mod.title %></h2>
+          <% if locked %>
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-700 text-gray-400">
+              <span class="mr-1">&#128274;</span> Locked
+            </span>
+          <% elsif module_completed %>
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-folk-green/20 text-folk-green">
+              &#10003; Complete
+            </span>
+          <% end %>
+        </div>
+        <p class="text-gray-400 mb-2"><%= mod.description %></p>
+        <% if locked %>
+          <% prereqs = mod.all_prerequisites.reject { |p| p.completed_by?(Current.user) } %>
+          <% if prereqs.any? %>
+            <p class="text-folk-orange text-sm mb-4">
+              Complete <%= prereqs.map { |p| "\"#{p.title}\"" }.join(", ") %> to unlock this module.
+            </p>
+          <% end %>
+        <% end %>
 
-        <div class="space-y-3">
+        <div class="space-y-3 <%= locked ? 'opacity-50' : '' %>">
           <% mod.lessons.each_with_index do |lesson, i| %>
             <% completed = lesson.completed_by?(Current.user) %>
-            <%= link_to lesson_path(lesson), class: "block bg-gray-800/50 border border-gray-700 rounded-lg p-5 hover:border-folk-blue transition group" do %>
-              <div class="flex items-center gap-4">
-                <div class="flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold <%= completed ? 'bg-folk-green/20 text-folk-green' : 'bg-gray-700 text-gray-400' %>">
-                  <% if completed %>
-                    &#10003;
-                  <% else %>
-                    <%= i + 1 %>
-                  <% end %>
-                </div>
-                <div class="flex-1">
-                  <h3 class="font-semibold group-hover:text-folk-blue transition"><%= lesson.title %></h3>
-                  <p class="text-gray-400 text-sm"><%= lesson.description %></p>
-                </div>
-                <div class="text-gray-600 group-hover:text-folk-blue transition">
-                  &rarr;
+            <% if locked %>
+              <div class="block bg-gray-800/50 border border-gray-700 rounded-lg p-5 cursor-not-allowed">
+                <div class="flex items-center gap-4">
+                  <div class="flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold bg-gray-700 text-gray-500">
+                    &#128274;
+                  </div>
+                  <div class="flex-1">
+                    <h3 class="font-semibold text-gray-500"><%= lesson.title %></h3>
+                    <p class="text-gray-500 text-sm"><%= lesson.description %></p>
+                  </div>
                 </div>
               </div>
+            <% else %>
+              <%= link_to lesson_path(lesson), class: "block bg-gray-800/50 border border-gray-700 rounded-lg p-5 hover:border-folk-blue transition group" do %>
+                <div class="flex items-center gap-4">
+                  <div class="flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold <%= completed ? 'bg-folk-green/20 text-folk-green' : 'bg-gray-700 text-gray-400' %>">
+                    <% if completed %>
+                      &#10003;
+                    <% else %>
+                      <%= i + 1 %>
+                    <% end %>
+                  </div>
+                  <div class="flex-1">
+                    <h3 class="font-semibold group-hover:text-folk-blue transition"><%= lesson.title %></h3>
+                    <p class="text-gray-400 text-sm"><%= lesson.description %></p>
+                  </div>
+                  <div class="text-gray-600 group-hover:text-folk-blue transition">
+                    &rarr;
+                  </div>
+                </div>
+              <% end %>
             <% end %>
           <% end %>
         </div>
