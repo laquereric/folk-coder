@@ -1,0 +1,146 @@
+@startuml FolkCoderArchitecture
+!theme plain
+title Folk-Coder: Learning Platform Architecture
+
+' === ACTORS ===
+actor "Student" as student
+actor "Admin" as admin
+
+' === WEB LAYER ===
+package "Web Layer (Controllers)" {
+    component "SessionsController" as sessions #c8e6c9
+    component "RegistrationsController" as registrations #c8e6c9
+    component "CurriculumController" as curriculum #c8e6c9
+    component "LessonsController" as lessons #c8e6c9
+    component "JourneyController" as journey #c8e6c9
+    component "HackathonsController" as hackathons #c8e6c9
+    component "Admin::DashboardController" as adminDash #ffcdd2
+    component "Admin::UsersController" as adminUsers #ffcdd2
+}
+
+' === DOMAIN LAYER ===
+package "Domain Layer (Models)" {
+    entity "User" as user {
+        email_address
+        password_digest
+        role: member|admin
+        --
+        has_many :sessions
+        has_many :lesson_completions
+    }
+
+    entity "CurriculumModule" as module {
+        title
+        description
+        position
+        --
+        has_many :lessons
+        has_many :prerequisites
+    }
+
+    entity "Lesson" as lesson {
+        title
+        description
+        content (markdown)
+        position
+        --
+        belongs_to :module
+    }
+
+    entity "LessonCompletion" as completion {
+        completed_at
+        --
+        belongs_to :user
+        belongs_to :lesson
+    }
+
+    entity "ModulePrerequisite" as prereq {
+        --
+        belongs_to :module
+        belongs_to :prerequisite
+    }
+
+    entity "Hackathon" as hackathon {
+        name, theme
+        location, region
+        start_date, end_date
+        url
+    }
+
+    entity "Session" as session {
+        ip_address
+        user_agent
+        --
+        belongs_to :user
+    }
+}
+
+' === DATA LAYER ===
+database "SQLite" as db
+
+' === RELATIONSHIPS ===
+student --> sessions : login
+student --> registrations : signup
+student --> curriculum : browse modules
+student --> lessons : study
+student --> journey : track progress
+student --> hackathons : discover events
+
+admin --> adminDash : view stats
+admin --> adminUsers : manage users
+
+sessions --> user
+registrations --> user
+curriculum --> module
+lessons --> lesson
+lessons --> completion
+journey --> user
+journey --> completion
+hackathons --> hackathon
+
+user "1" --> "*" session
+user "1" --> "*" completion
+module "1" --> "*" lesson
+module "*" --> "*" prereq
+lesson "1" --> "*" completion
+
+user ..> db
+module ..> db
+lesson ..> db
+completion ..> db
+hackathon ..> db
+session ..> db
+
+' === FEATURES ===
+note right of journey
+    **Progress Tracking**
+    - Streak calculation
+    - Milestones
+    - Next lesson suggestion
+    - Completion percentage
+end note
+
+note right of lessons
+    **Content Rendering**
+    - Markdown via Redcarpet
+    - Embedded SVG diagrams
+    - Code blocks with syntax
+end note
+
+note bottom of module
+    **Learning Path**
+    - Ordered modules (position)
+    - Prerequisite system
+    - Unlock on completion
+end note
+
+' === TECH STACK ===
+note as tech
+    **Tech Stack**
+    Rails 8.1 | SQLite | Puma
+    Hotwire (Turbo + Stimulus)
+    Redcarpet | BCrypt
+    TailwindCSS
+end note
+
+@enduml
