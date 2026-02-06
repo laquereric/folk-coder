@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="<%= I18n.locale %>" class="h-full">
+  <head>
+    <title><%= content_for(:title) || "Admin - FolkCoder" %></title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <link rel="icon" href="/icon.png" type="image/png">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              folk: {
+                dark: '#0f172a',
+                blue: '#3b82f6',
+                purple: '#8b5cf6',
+                green: '#10b981',
+                orange: '#f59e0b',
+              }
+            }
+          }
+        }
+      }
+    </script>
+
+    <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags %>
+  </head>
+
+  <body class="h-full bg-folk-dark text-gray-100 antialiased">
+    <div class="min-h-full">
+      <!-- Admin Navigation -->
+      <nav class="bg-gray-900 border-b border-gray-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div class="flex justify-between items-center h-16">
+            <div class="flex items-center space-x-8">
+              <%= link_to root_path, class: "text-xl font-bold" do %>
+                <span class="text-folk-blue">Folk</span><span class="text-folk-green">Coder</span>
+              <% end %>
+              <span class="text-folk-purple font-medium">Admin</span>
+            </div>
+            <div class="flex items-center space-x-6">
+              <%= link_to "Dashboard", admin_root_path, class: "text-gray-300 hover:text-white transition #{request.path == admin_root_path ? 'text-white' : ''}" %>
+              <%= link_to "Users", admin_users_path, class: "text-gray-300 hover:text-white transition #{request.path.start_with?(admin_users_path) ? 'text-white' : ''}" %>
+              <span class="text-gray-500">|</span>
+              <%= link_to "Back to Site", root_path, class: "text-gray-400 hover:text-white transition" %>
+              <span class="text-gray-300"><%= Current.user.name %></span>
+              <%= button_to "Log Out", session_path, method: :delete, class: "text-gray-400 hover:text-white transition" %>
+            </div>
+          </div>
+        </div>
+      </nav>
+
+      <!-- Flash Messages -->
+      <% if notice.present? %>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-4">
+          <div class="bg-folk-green/20 border border-folk-green/50 text-folk-green px-4 py-3 rounded-lg">
+            <%= notice %>
+          </div>
+        </div>
+      <% end %>
+      <% if alert.present? %>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-4">
+          <div class="bg-red-500/20 border border-red-500/50 text-red-400 px-4 py-3 rounded-lg">
+            <%= alert %>
+          </div>
+        </div>
+      <% end %>
+
+      <!-- Main Content -->
+      <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <%= yield %>
+      </main>
+    </div>
+  </body>
+</html>

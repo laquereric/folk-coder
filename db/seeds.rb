@@ -1,9 +1,12 @@
-# Founder user for local development
+# Founder user for local development (admin)
 founder = User.find_or_create_by!(email_address: "founder@folkcoder.com") do |u|
   u.name = "Founder"
   u.password = "founder123"
+  u.role = "admin"
 end
-puts "Seeded founder user: #{founder.email_address} (password: founder123)"
+# Ensure founder is always admin (in case already existed)
+founder.update!(role: "admin") unless founder.admin?
+puts "Seeded founder user: #{founder.email_address} (password: founder123, role: admin)"
 
 # Curriculum: SwarmPod Fundamentals
 mod = CurriculumModule.find_or_create_by!(title: "SwarmPod Fundamentals") do |m|

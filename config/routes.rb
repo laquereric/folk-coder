@@ -15,6 +15,12 @@ Rails.application.routes.draw do
 
     resources :hackathons, only: [ :index ]
 
+    # Admin namespace
+    namespace :admin do
+      root to: "dashboard#index"
+      resources :users, only: [ :index, :show, :edit, :update ]
+    end
+
     root "pages#home"
     get "/next", to: "pages#next_page"
     get "/faq", to: "pages#faq"

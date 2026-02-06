@@ -1,0 +1,42 @@
+<% content_for :title, "Users - Admin - FolkCoder" %>
+
+<h1 class="text-3xl font-bold mb-8">Users</h1>
+
+<div class="bg-gray-800 rounded-lg border border-gray-700">
+  <div class="overflow-x-auto">
+    <table class="w-full">
+      <thead>
+        <tr class="text-left text-gray-400 text-sm border-b border-gray-700">
+          <th class="px-6 py-3 font-medium">ID</th>
+          <th class="px-6 py-3 font-medium">Name</th>
+          <th class="px-6 py-3 font-medium">Email</th>
+          <th class="px-6 py-3 font-medium">Role</th>
+          <th class="px-6 py-3 font-medium">Lessons Completed</th>
+          <th class="px-6 py-3 font-medium">Joined</th>
+          <th class="px-6 py-3 font-medium">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @users.each do |user| %>
+          <tr class="border-b border-gray-700/50 hover:bg-gray-700/30">
+            <td class="px-6 py-4 text-gray-500 text-sm">#<%= user.id %></td>
+            <td class="px-6 py-4">
+              <%= link_to user.name, admin_user_path(user), class: "text-white hover:text-folk-blue" %>
+            </td>
+            <td class="px-6 py-4 text-gray-300"><%= user.email_address %></td>
+            <td class="px-6 py-4">
+              <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium <%= user.admin? ? 'bg-folk-purple/20 text-folk-purple' : 'bg-gray-700 text-gray-300' %>">
+                <%= user.role.capitalize %>
+              </span>
+            </td>
+            <td class="px-6 py-4 text-gray-300"><%= user.lesson_completions.count %></td>
+            <td class="px-6 py-4 text-gray-400 text-sm"><%= user.created_at.strftime("%b %d, %Y") %></td>
+            <td class="px-6 py-4">
+              <%= link_to "Edit", edit_admin_user_path(user), class: "text-folk-blue hover:text-blue-400 text-sm" %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>

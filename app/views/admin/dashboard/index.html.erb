@@ -1,0 +1,62 @@
+<% content_for :title, "Admin Dashboard - FolkCoder" %>
+
+<h1 class="text-3xl font-bold mb-8">Admin Dashboard</h1>
+
+<!-- Stats Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+  <div class="bg-gray-800 rounded-lg p-6 border border-gray-700">
+    <div class="text-gray-400 text-sm font-medium">Total Users</div>
+    <div class="text-3xl font-bold text-white mt-2"><%= @total_users %></div>
+  </div>
+
+  <div class="bg-gray-800 rounded-lg p-6 border border-gray-700">
+    <div class="text-gray-400 text-sm font-medium">Admins</div>
+    <div class="text-3xl font-bold text-folk-purple mt-2"><%= @total_admins %></div>
+  </div>
+
+  <div class="bg-gray-800 rounded-lg p-6 border border-gray-700">
+    <div class="text-gray-400 text-sm font-medium">Members</div>
+    <div class="text-3xl font-bold text-folk-blue mt-2"><%= @total_members %></div>
+  </div>
+
+  <div class="bg-gray-800 rounded-lg p-6 border border-gray-700">
+    <div class="text-gray-400 text-sm font-medium">Lesson Completions</div>
+    <div class="text-3xl font-bold text-folk-green mt-2"><%= @total_completions %></div>
+  </div>
+</div>
+
+<!-- Recent Users -->
+<div class="bg-gray-800 rounded-lg border border-gray-700">
+  <div class="px-6 py-4 border-b border-gray-700 flex justify-between items-center">
+    <h2 class="text-xl font-semibold">Recent Users</h2>
+    <%= link_to "View All", admin_users_path, class: "text-folk-blue hover:text-blue-400 text-sm" %>
+  </div>
+  <div class="overflow-x-auto">
+    <table class="w-full">
+      <thead>
+        <tr class="text-left text-gray-400 text-sm border-b border-gray-700">
+          <th class="px-6 py-3 font-medium">Name</th>
+          <th class="px-6 py-3 font-medium">Email</th>
+          <th class="px-6 py-3 font-medium">Role</th>
+          <th class="px-6 py-3 font-medium">Joined</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @recent_users.each do |user| %>
+          <tr class="border-b border-gray-700/50 hover:bg-gray-700/30">
+            <td class="px-6 py-4">
+              <%= link_to user.name, admin_user_path(user), class: "text-white hover:text-folk-blue" %>
+            </td>
+            <td class="px-6 py-4 text-gray-300"><%= user.email_address %></td>
+            <td class="px-6 py-4">
+              <span class="<%= user.admin? ? 'text-folk-purple' : 'text-gray-400' %> text-sm font-medium">
+                <%= user.role.capitalize %>
+              </span>
+            </td>
+            <td class="px-6 py-4 text-gray-400 text-sm"><%= user.created_at.strftime("%b %d, %Y") %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>

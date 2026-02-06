@@ -1,0 +1,62 @@
+<% content_for :title, "#{@user.name} - Admin - FolkCoder" %>
+
+<div class="mb-6">
+  <%= link_to "&larr; Back to Users".html_safe, admin_users_path, class: "text-gray-400 hover:text-white text-sm" %>
+</div>
+
+<div class="bg-gray-800 rounded-lg border border-gray-700 p-6">
+  <div class="flex justify-between items-start mb-6">
+    <div>
+      <h1 class="text-3xl font-bold"><%= @user.name %></h1>
+      <p class="text-gray-400 mt-1"><%= @user.email_address %></p>
+    </div>
+    <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium <%= @user.admin? ? 'bg-folk-purple/20 text-folk-purple' : 'bg-gray-700 text-gray-300' %>">
+      <%= @user.role.capitalize %>
+    </span>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+    <div>
+      <div class="text-gray-400 text-sm">User ID</div>
+      <div class="text-white">#<%= @user.id %></div>
+    </div>
+    <div>
+      <div class="text-gray-400 text-sm">Joined</div>
+      <div class="text-white"><%= @user.created_at.strftime("%B %d, %Y at %I:%M %p") %></div>
+    </div>
+    <div>
+      <div class="text-gray-400 text-sm">Lessons Completed</div>
+      <div class="text-white"><%= @user.lesson_completions.count %></div>
+    </div>
+  </div>
+
+  <div class="pt-4 border-t border-gray-700">
+    <%= link_to "Edit User", edit_admin_user_path(@user), class: "bg-folk-blue hover:bg-blue-600 text-white px-4 py-2 rounded-lg font-medium transition" %>
+  </div>
+</div>
+
+<% if @user.lesson_completions.any? %>
+  <div class="mt-8 bg-gray-800 rounded-lg border border-gray-700">
+    <div class="px-6 py-4 border-b border-gray-700">
+      <h2 class="text-xl font-semibold">Completed Lessons</h2>
+    </div>
+    <div class="overflow-x-auto">
+      <table class="w-full">
+        <thead>
+          <tr class="text-left text-gray-400 text-sm border-b border-gray-700">
+            <th class="px-6 py-3 font-medium">Lesson</th>
+            <th class="px-6 py-3 font-medium">Completed At</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @user.lesson_completions.includes(:lesson).order(created_at: :desc).each do |completion| %>
+            <tr class="border-b border-gray-700/50">
+              <td class="px-6 py-4 text-white"><%= completion.lesson.title %></td>
+              <td class="px-6 py-4 text-gray-400"><%= completion.created_at.strftime("%B %d, %Y at %I:%M %p") %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+<% end %>
