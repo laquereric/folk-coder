@@ -13,9 +13,9 @@
     </div>
 
     <!-- Lesson Content -->
-    <div class="bg-gray-800/50 border border-gray-700 rounded-xl p-8 mb-8 prose prose-invert max-w-none">
-      <div class="text-gray-300 leading-relaxed space-y-4">
-        <%= simple_format(@lesson.content) %>
+    <div class="bg-gray-800/50 border border-gray-700 rounded-xl p-8 mb-8 prose prose-invert max-w-none prose-pre:bg-gray-900 prose-pre:border prose-pre:border-gray-700 prose-code:text-folk-green prose-code:before:content-none prose-code:after:content-none">
+      <div class="text-gray-300 leading-relaxed">
+        <%= render_markdown(@lesson.content) %>
       </div>
     </div>
 

@@ -1,0 +1,32 @@
+# Dependencies
+node_modules/
+vendor/bundle/
+.bundle/
+
+# Build artifacts
+tmp/
+log/
+public/assets/
+coverage/
+
+# Git
+.git/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# SQLite databases (use seeds instead)
+storage/*.sqlite3
+
+# Test artifacts
+test/reports/
+
+# Large files
+*.log

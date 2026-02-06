@@ -2636,6 +2636,561 @@ ai_patterns_lessons.each do |attrs|
   end
 end
 
+# Curriculum 7: Data-Driven Development (requires Curriculum 5)
+data_driven_mod = CurriculumModule.find_or_create_by!(title: "Data-Driven Development") do |m|
+  m.description = "Master data-driven software development using multi-model databases, based on Eric Laquer's O'Reilly report."
+  m.position = 7
+end
+
+# Set prerequisite on Curriculum 5
+ModulePrerequisite.find_or_create_by!(
+  curriculum_module: data_driven_mod,
+  prerequisite_module: agentic_web_mod
+)
+
+data_driven_lessons = [
+  {
+    title: "The Data-Driven Paradigm",
+    description: "Understand why data-driven development transforms how teams build software.",
+    position: 1,
+    content: <<~CONTENT
+      Data-driven software development accepts the central role that data in its primary form takes in the applications we create. This paradigm shift moves developers closer to the data, eliminating the queues and transformations that traditionally separate us from the information we need.
+
+      <img src="/images/data-ontology-iceberg.jpg" alt="Data Ontology Iceberg: AI Models and Agents visible above water, with Ontology, Linking, and Data beneath the surface" style="max-width: 400px; margin: 2rem auto; display: block; border-radius: 8px;" />
+
+      *Like an iceberg, AI models and agents are the visible tip — but the real foundation lies beneath: ontology, linking, and data.*
+
+      **The Core Problem**
+
+      For 40 years, developers put data into relational database management systems (RDBMSs). We knew what the data looked like, and DBAs knew what to do to store, secure, and retrieve it. But with a variety of different data types and unprecedented data volumes, this model is breaking down.
+
+      As data becomes more complex and siloed in purpose-built databases, developers are being forced away from it. This creates ever-longer lags between specification and deployment.
+
+      **What Data-Driven Development Offers**
+
+      Direct access to a multi-model database gives developers the ability to implement transformations they need without waiting for data to be "readied" by separate teams. Documents are the heart of information technology:
+
+      - Two systems exchanging XML/JSON data
+      - Browsers receiving HTML/JSON responses
+      - Users filling out forms, creating documents, doing financial modeling
+
+      These are all document-centric activities that don't fit naturally into the restrictive relational data context.
+
+      **Case Study: Fortune 50 Insurance Company**
+
+      A major insurance company needed to integrate HR data from 24+ acquisitions. The traditional approach would have required:
+
+      - Complex point-to-point data exchange solutions
+      - Highly complex ETL processes written up front
+      - A rigid system requiring massive rework for changes
+      - An estimated 5 years to complete
+
+      Instead, using a flexible document-based data model developed in an Agile manner:
+
+      - Eliminated complex ETL
+      - Decoupled source data from target data
+      - Enabled code reuse across 140 data feeds
+      - Delivered in less than 1 year
+      - Now handles 50 GB/day across 50+ systems
+
+      **The Shift in Thinking**
+
+      Data-driven development requires a new way of thinking:
+
+      1. **Data in its native form**: Work with JSON, XML, text, and binary as they arrive
+      2. **Conceptual models in the database**: Your data model exists directly in the tool
+      3. **Eliminate translation layers**: No more tearing down and building up from tables
+      4. **Agility through directness**: Communicate solutions on the fly with stakeholders
+
+      This approach mirrors what DevOps did for operations — it brings data management into the development process itself.
+
+      ---
+
+      *Based on "Defining Data-Driven Software Development" by Eric Laquer (O'Reilly, 2017).*
+
+      **[Download the free PDF report](/downloads/DefiningDataDrivenSoftwareDevelopment.pdf)**
+    CONTENT
+  },
+  {
+    title: "Multi-Model Databases",
+    description: "Learn how multi-model databases unify document, graph, search, and relational capabilities.",
+    position: 2,
+    content: <<~CONTENT
+      Modern applications require more than one way to model data. Multi-model databases provide multiple data paradigms in a single, unified system — eliminating the complexity of polyglot persistence while maintaining the power of specialized approaches.
+
+      **The Data Model Spectrum**
+
+      Different problems call for different data representations:
+
+      | Model | Best For | Example |
+      |-------|----------|---------|
+      | Document | Hierarchical data, flexible schemas | User profiles, product catalogs |
+      | Graph/Triples | Relationships, knowledge graphs | Social networks, fraud detection |
+      | Key-Value | Simple lookups, caching | Session data, configuration |
+      | Relational | Structured, transactional data | Financial records, inventory |
+      | Full-Text | Search across unstructured content | Content management, logs |
+      | Geospatial | Location-based queries | Mapping, logistics |
+      | Bitemporal | Historical state at any point | Compliance, auditing |
+
+      **Polyglot Persistence: The Alternative**
+
+      Before multi-model databases, teams assembled applications from multiple specialized tools:
+
+      ```
+      [Application Tier]
+           |
+           +---> [RDBMS] (transactions)
+           +---> [Search Engine] (full-text)
+           +---> [Graph DB] (relationships)
+           +---> [Document Store] (flexible data)
+           +---> [File System] (binaries)
+      ```
+
+      **Problems with this approach:**
+
+      - Each tool requires separate expertise, maintenance, and security audits
+      - Joins across systems must be done in application code
+      - Consistency guarantees are difficult to maintain
+      - ETL processes introduce latency and errors
+      - Each component needs its own HA/DR strategy
+
+      **Multi-Model Unification**
+
+      A multi-model database provides:
+
+      ```
+      [Application Tier]
+           |
+           v
+      [Multi-Model Database]
+        - Documents (JSON, XML)
+        - Triples (RDF/SPARQL)
+        - Full-text search
+        - SQL views
+        - Geospatial indexes
+        - Bitemporal queries
+      ```
+
+      **Key Benefits:**
+
+      1. **Single security model**: One set of permissions, one audit trail
+      2. **ACID across models**: Transactions span document and graph updates
+      3. **Unified indexing**: One query can combine text search, triple patterns, and SQL
+      4. **Simplified operations**: One backup, one HA strategy, one team
+
+      **Schema Flexibility**
+
+      Multi-model databases offer a spectrum of schema enforcement:
+
+      - **Homogeneous collections**: All documents match one schema (like RDBMS)
+      - **Constrained collections**: Documents match one of several allowed schemas
+      - **Heterogeneous collections**: Any structure allowed (pure NoSQL)
+
+      This flexibility lets you be "constrained just enough" — strict where you need rigor, flexible where you need agility.
+
+      **Choosing a Multi-Model Database**
+
+      When evaluating options, consider:
+
+      - Which data models does it natively support?
+      - Does it provide true ACID transactions across models?
+      - Can you query across models in a single operation?
+      - What are the indexing capabilities for each model?
+      - How does security work across different data types?
+
+      Popular multi-model databases include MarkLogic, ArangoDB, OrientDB, and Cosmos DB.
+
+      *Based on "Defining Data-Driven Software Development" by Eric Laquer (O'Reilly, 2017).*
+    CONTENT
+  },
+  {
+    title: "Stakeholder Perspectives",
+    description: "Understand what developers, DBAs, sysadmins, and analysts need from data systems.",
+    position: 3,
+    content: <<~CONTENT
+      Data-driven development requires understanding the needs of everyone who touches the data. Each stakeholder brings different priorities — and a successful data strategy must address them all.
+
+      **What Software Developers Want**
+
+      Developers need flexibility to respond to changing requirements:
+
+      1. **Freedom from Rigid Schemas**
+         - Requirements constantly evolve
+         - Schema changes in RDBMS are painful (migration plans, DBA coordination, downtime windows)
+         - Schemas aren't bad — requiring exactly *one* schema is the problem
+
+      2. **Handle Different Data Types**
+         - Real data comes in various shapes: JSON from APIs, XML from partners, binary documents
+         - Forcing everything into rows and columns creates conversion code — brittle and voluminous
+
+      3. **Architectural Simplicity**
+         - Fewer components mean fewer failure modes
+         - Let the database do database work (joins, indexes, transactions)
+         - Save application code for business logic
+
+      **What DBAs Want**
+
+      DBAs protect data integrity and availability:
+
+      1. **ACID Compliance**
+         - Atomicity: All changes or none
+         - Consistency: All changes obey rules
+         - Isolation: Changes applied step-by-step
+         - Durability: Changes are permanent
+         - Note: "Eventual consistency" is NOT the same as ACID
+
+      2. **Minimal Schema Changes**
+         - Schema changes are critical transactions requiring careful planning
+         - NoSQL helps but doesn't eliminate application linkage issues
+
+      3. **High Availability & Fault Tolerance**
+         - Data must always be available
+         - Systems must survive infrastructure failures
+
+      **What SysAdmins Want**
+
+      System operators deploy and maintain infrastructure:
+
+      1. **Software-Defined Infrastructure**
+         - Scripts should set up entire clusters
+         - Cloud, on-premise, or hybrid deployments
+
+      2. **DevOps Compatibility**
+         - Modern tools should automate setup
+         - Security, privacy, audit, HA, DR built into platforms
+
+      3. **Storage Tiers**
+         - Fast storage for hot data
+         - Cheap storage for archives
+         - Database should manage tier assignment
+
+      4. **Architectural Simplicity**
+         - Fewer components to learn, maintain, update
+         - One set of skills instead of many
+
+      **What Compliance Teams Want**
+
+      GRC/ERM professionals prevent disasters:
+
+      1. **Redaction & Field-Level Security**
+         - Some fields must exist but only be visible to authorized users
+         - Database-level support is stronger than application-level
+
+      2. **Encryption at Rest**
+         - Cloud and insider threats make filesystem security insufficient
+         - Data must be encrypted even on disk
+
+      3. **Bitemporal Data**
+         - Recreate database state at any past point
+         - Essential for audits and forensics
+
+      **What Analysts Want**
+
+      Analysts extract insights from data:
+
+      1. **Complete & Integrated Data**
+         - No artificial silos limiting their view
+         - Access to all relevant data sources
+
+      2. **Accuracy**
+         - ACID compliance in source systems
+         - ETL processes introduce errors
+
+      3. **Timeliness**
+         - ETL batches delay insights by hours
+         - Real-time analytics enable competitive advantage
+
+      4. **Flexibility**
+         - Future questions are impossible to predict
+         - "Index everything" approaches enable ad-hoc queries
+
+      **The Common Thread**
+
+      All stakeholders benefit when data management is:
+      - **Unified**: One system, one security model, one truth
+      - **Flexible**: Adapts to changing needs without massive rework
+      - **Direct**: Minimal transformation between source and use
+
+      *Based on "Defining Data-Driven Software Development" by Eric Laquer (O'Reilly, 2017).*
+    CONTENT
+  },
+  {
+    title: "Data Modeling Strategies",
+    description: "Learn practical approaches to modeling data in multi-model environments.",
+    position: 4,
+    content: <<~CONTENT
+      Effective data modeling in a multi-model environment requires understanding when to use which paradigm and how to combine them for maximum effect.
+
+      **Questions Before You Begin**
+
+      Before modeling, ask:
+
+      1. What form does the data take at its point of origin?
+      2. If models are stored separately, how can we correlate them?
+      3. How do you access the data from the models?
+      4. Is there a common vocabulary across these models?
+
+      **Questions About Data Governance**
+
+      Consider the broader context:
+
+      - Where and when was the data created?
+      - What confidence do we have in correctness?
+      - What decisions depend on this data and when?
+      - Who owns the data?
+      - What regulations control storage and communication?
+      - How much is the data worth if kept? How much would it cost if lost?
+
+      **Document Modeling**
+
+      Documents (JSON, XML) are natural for:
+      - Hierarchical data with nested structures
+      - Data that arrives as documents (API responses, user uploads)
+      - Schemas that vary or evolve frequently
+
+      ```json
+      {
+        "user_id": "u123",
+        "profile": {
+          "name": "Alice",
+          "preferences": {
+            "theme": "dark",
+            "notifications": ["email", "push"]
+          }
+        },
+        "orders": [
+          {"id": "o1", "total": 99.00},
+          {"id": "o2", "total": 149.00}
+        ]
+      }
+      ```
+
+      **Semantic/Graph Modeling**
+
+      Triples (subject-predicate-object) are natural for:
+      - Relationships between entities
+      - Knowledge that can be inferred from other knowledge
+      - Data that needs to answer "ontological" questions
+
+      ```turtle
+      :Alice :worksFor :AcmeCorp .
+      :Alice :manages :Bob .
+      :Bob :worksFor :AcmeCorp .
+      :AcmeCorp :locatedIn :NewYork .
+      ```
+
+      Now you can query: "Who works for a company in New York?" without pre-defining the join path.
+
+      **Combining Models**
+
+      The real power comes from using models together:
+
+      ```
+      Document: Customer record with orders, preferences
+           |
+           +-- Triples: Customer :hasSentiment :Positive
+           |            Customer :inSegment :HighValue
+           |
+           +-- Full-text: Search across all customer communications
+           |
+           +-- Geospatial: Customer :locatedAt (lat, long)
+      ```
+
+      A single query might:
+      1. Find customers in a geographic region (geospatial)
+      2. With positive sentiment (triple)
+      3. Who mentioned "upgrade" recently (full-text)
+      4. And return their full profile (document)
+
+      **Self-Describing Data**
+
+      XML and JSON are considered "self-describing" — the structure is embedded in the data itself. This enables:
+
+      - Schema inference from actual data
+      - Validation against multiple schemas
+      - Ingestion without pre-defined structure
+      - Evolution without migration
+
+      **Indexing Strategies**
+
+      Multi-model databases offer various index types:
+
+      | Index Type | Use Case |
+      |------------|----------|
+      | Range | Numeric comparisons, date ranges |
+      | Word | Full-text search |
+      | Triple | SPARQL graph queries |
+      | Geospatial | Location queries |
+      | Path | Document structure navigation |
+
+      The key insight: indexes should be built for the *queries you'll run*, not just the *data you have*.
+
+      **Handling Schema Evolution**
+
+      In document databases, schema changes don't require migrations:
+
+      1. New fields: Just start writing them
+      2. Removed fields: Stop writing them, handle absence in queries
+      3. Changed fields: Transform on read or write as needed
+      4. Validation: Apply schemas to new documents, allow old ones
+
+      This "schema-on-read" approach trades upfront rigor for ongoing flexibility.
+
+      *Based on "Defining Data-Driven Software Development" by Eric Laquer (O'Reilly, 2017).*
+    CONTENT
+  },
+  {
+    title: "Implementation Practices",
+    description: "Apply data-driven principles to your development workflow.",
+    position: 5,
+    content: <<~CONTENT
+      Implementing data-driven development requires changes to both technology choices and team processes. Here's how to put the principles into practice.
+
+      **Technology Selection Criteria**
+
+      When choosing a multi-model database, evaluate:
+
+      1. **Data Model Support**
+         - Does it natively support the models you need?
+         - Can you query across models in a single operation?
+         - Are all models first-class citizens or afterthoughts?
+
+      2. **ACID Transactions**
+         - Per-document ACID is not the same as cross-document ACID
+         - Ensure transactions work across model boundaries
+
+      3. **Security**
+         - Role-based access at document and field levels
+         - Redaction capabilities for sensitive data
+         - Encryption at rest and in transit
+         - Single audit trail across all operations
+
+      4. **Operational Capabilities**
+         - High availability and disaster recovery
+         - Horizontal scaling
+         - Storage tiering (hot/warm/cold)
+         - Backup and restore
+
+      5. **Query Capabilities**
+         - Full-text search with relevance ranking
+         - SQL for relational views
+         - SPARQL for graph traversal
+         - Geospatial queries
+         - Bitemporal queries
+
+      **Process Changes**
+
+      Data-driven development changes how teams work:
+
+      **Before (RDBMS-centric):**
+      ```
+      Requirements → Schema Design → DBA Review → Migration
+           ↓
+      Development → Testing → Schema Updates → DBA Review
+           ↓
+      Deployment → Production Schema Migration
+      ```
+
+      **After (Data-driven):**
+      ```
+      Requirements → Development with Real Data Shapes
+           ↓
+      Iterative Refinement → Schema Validation (optional)
+           ↓
+      Deployment → No Schema Migration Needed
+      ```
+
+      **Skills to Develop**
+
+      Data-driven developers should learn:
+
+      1. **Query Languages**
+         - XQuery/XPath for XML
+         - JSONPath/JMESPath for JSON
+         - SPARQL for triples
+         - SQL for relational views
+
+      2. **Data Modeling**
+         - When to denormalize (documents)
+         - When to link (triples)
+         - When to index (search)
+
+      3. **Security Design**
+         - Document-level permissions
+         - Field-level redaction
+         - Role hierarchies
+
+      4. **Performance Tuning**
+         - Index selection
+         - Query optimization
+         - Caching strategies
+
+      **Integration Patterns**
+
+      For systems that must integrate with existing RDBMS:
+
+      1. **Operational Data Hub**
+         - Multi-model database as integration layer
+         - Ingest from multiple sources
+         - Serve multiple consumers
+         - Single source of truth
+
+      2. **Event Sourcing**
+         - Store events as documents
+         - Build views for different consumers
+         - Maintain complete history
+
+      3. **API-First**
+         - Expose data through APIs
+         - Let consumers query in their preferred style
+         - Abstract underlying storage
+
+      **Avoiding Common Pitfalls**
+
+      1. **Don't treat NoSQL as "no schema"**
+         - Flexibility doesn't mean chaos
+         - Define conventions and enforce them in code
+
+      2. **Don't ignore existing data**
+         - Migration is often unnecessary
+         - Load data "as-is" and transform on read
+
+      3. **Don't forget operations**
+         - A simpler architecture still needs monitoring
+         - Plan for backup, recovery, and scaling
+
+      4. **Don't over-engineer**
+         - Start with the simplest model that works
+         - Add complexity only when needed
+
+      **Measuring Success**
+
+      Data-driven development should improve:
+
+      - **Time to first feature**: How quickly can you deliver value?
+      - **Schema change velocity**: How many schema changes per sprint?
+      - **Integration complexity**: How many systems do you need to maintain?
+      - **Query flexibility**: Can you answer questions you didn't anticipate?
+
+      ---
+
+      *Based on "Defining Data-Driven Software Development" by Eric Laquer (O'Reilly, 2017).*
+
+      **[Download the free PDF report](/downloads/DefiningDataDrivenSoftwareDevelopment.pdf)**
+
+      This curriculum connects to the Magentic Market vision: AI agents exchanging data in its native form (JSON-RPC-LD), with multi-model databases providing the flexibility to store agent capabilities, semantic relationships, and operational data in whatever form best serves the use case.
+    CONTENT
+  }
+]
+
+data_driven_lessons.each do |attrs|
+  Lesson.find_or_create_by!(title: attrs[:title], curriculum_module_id: data_driven_mod.id) do |l|
+    l.description = attrs[:description]
+    l.content = attrs[:content]
+    l.position = attrs[:position]
+  end
+end
+
 puts "Seeded #{Lesson.count} lessons in #{CurriculumModule.count} module(s)"
 
 # Hackathons
