@@ -1689,6 +1689,953 @@ agentic_web_lessons.each do |attrs|
   end
 end
 
+# Curriculum 6: AI Application Patterns (requires Curriculum 5)
+ai_patterns_mod = CurriculumModule.find_or_create_by!(title: "AI Application Patterns") do |m|
+  m.description = "Master proven patterns for building production AI applications, based on Obie Fernandez's 'Patterns of Application Development Using AI'."
+  m.position = 6
+end
+
+# Set prerequisite on Curriculum 5
+ModulePrerequisite.find_or_create_by!(
+  curriculum_module: ai_patterns_mod,
+  prerequisite_module: agentic_web_mod
+)
+
+ai_patterns_lessons = [
+  {
+    title: "Foundational AI Patterns",
+    description: "Learn the core patterns that form the foundation of AI-powered applications.",
+    position: 1,
+    content: <<~CONTENT
+      Building AI applications requires more than just calling an API. Obie Fernandez's "Patterns of Application Development Using AI" identifies proven patterns that make AI applications reliable, maintainable, and production-ready.
+
+      This curriculum distills the key patterns from the book, giving you a practical toolkit for integrating large language models into your applications.
+
+      The Core Challenge: Managing Latent Space
+
+      LLMs have a vast "latent space" — the universe of possible responses they can generate. Your job as an AI application developer is to constrain this space to produce useful, predictable outputs.
+
+      **Narrow The Path**
+
+      The foundational pattern for controlling AI behavior. Instead of asking an LLM to "do anything," you constrain its options through:
+
+      - Specific system prompts that define the task scope
+      - Structured input/output schemas
+      - Few-shot examples that demonstrate expected behavior
+      - Guardrails that reject off-topic responses
+
+      ```ruby
+      class NarrowedAgent
+        SYSTEM_PROMPT = <<~PROMPT
+          You are a code review assistant. Your ONLY task is to review Ruby code
+          for the following issues:
+          1. Security vulnerabilities
+          2. Performance problems
+          3. Style violations
+
+          Respond ONLY with a JSON object containing:
+          - issues: array of {type, severity, line, description}
+          - summary: one sentence overview
+
+          Do not discuss anything else. If asked about unrelated topics,
+          respond with: {"error": "I can only review Ruby code"}
+        PROMPT
+
+        def review(code)
+          response = claude.message(
+            system: SYSTEM_PROMPT,
+            messages: [{ role: "user", content: code }]
+          )
+          JSON.parse(response.content)
+        end
+      end
+      ```
+
+      **Retrieval Augmented Generation (RAG)**
+
+      LLMs have knowledge cutoffs and can't access your private data. RAG solves this by:
+
+      1. Converting documents to embeddings (vector representations)
+      2. Storing embeddings in a vector database
+      3. Finding relevant documents for each query
+      4. Including those documents in the prompt context
+
+      ```ruby
+      class RAGSystem
+        def answer(question)
+          # 1. Find relevant documents
+          embedding = embed(question)
+          relevant_docs = vector_db.search(embedding, limit: 5)
+
+          # 2. Build context-aware prompt
+          context = relevant_docs.map(&:content).join("\\n\\n")
+
+          # 3. Generate answer with context
+          claude.message(
+            system: "Answer based ONLY on the provided context.",
+            messages: [{
+              role: "user",
+              content: "Context:\\n\#{context}\\n\\nQuestion: \#{question}"
+            }]
+          )
+        end
+      end
+      ```
+
+      **Multitude of Workers**
+
+      Instead of one monolithic AI, build multiple specialized workers:
+
+      - Each worker has a focused responsibility
+      - Workers can be tested and improved independently
+      - Different workers can use different models (Haiku for simple tasks, Opus for complex ones)
+      - Workers compose into pipelines
+
+      This pattern mirrors microservices architecture — single responsibility, loose coupling, independent deployment.
+
+      These foundational patterns appear throughout production AI systems. Master them before moving to more advanced techniques.
+    CONTENT
+  },
+  {
+    title: "Prompt Engineering Patterns",
+    description: "Master the art of crafting effective prompts with proven engineering patterns.",
+    position: 2,
+    content: <<~CONTENT
+      Prompt engineering is the discipline of crafting inputs that produce reliable, useful outputs from LLMs. These patterns transform ad-hoc prompting into a repeatable engineering practice.
+
+      **Chain of Thought**
+
+      Complex problems require step-by-step reasoning. Chain of Thought prompts ask the model to "think out loud":
+
+      ```ruby
+      CHAIN_OF_THOUGHT_PROMPT = <<~PROMPT
+        Analyze this code change for potential bugs.
+
+        Think through this step by step:
+        1. What does the original code do?
+        2. What does the changed code do?
+        3. What edge cases might break?
+        4. What's your conclusion?
+
+        Show your reasoning for each step.
+      PROMPT
+      ```
+
+      This pattern dramatically improves accuracy on complex tasks by forcing explicit reasoning.
+
+      **Role Assignment**
+
+      Give the model a specific persona that shapes its responses:
+
+      ```ruby
+      ROLES = {
+        security_expert: "You are a senior security engineer with 15 years of experience in application security, OWASP, and penetration testing.",
+        junior_dev: "You are a junior developer learning Ruby. Explain concepts simply and ask clarifying questions.",
+        code_reviewer: "You are a meticulous code reviewer focused on maintainability and best practices."
+      }
+
+      def prompt_with_role(role, task)
+        "\#{ROLES[role]}\\n\\n\#{task}"
+      end
+      ```
+
+      **Prompt Template**
+
+      Standardize prompt structure with templates:
+
+      ```ruby
+      class PromptTemplate
+        def initialize(template)
+          @template = template
+        end
+
+        def render(variables)
+          result = @template.dup
+          variables.each do |key, value|
+            result.gsub!("{{\#{key}}}", value.to_s)
+          end
+          result
+        end
+      end
+
+      REVIEW_TEMPLATE = PromptTemplate.new(<<~PROMPT)
+        Review this {{language}} code for {{focus_area}}.
+
+        Code:
+        ```{{language}}
+        {{code}}
+        ```
+
+        Provide feedback in this format:
+        {{output_format}}
+      PROMPT
+      ```
+
+      **Structured I/O**
+
+      Define explicit schemas for inputs and outputs:
+
+      ```ruby
+      class StructuredReview
+        INPUT_SCHEMA = {
+          type: "object",
+          properties: {
+            code: { type: "string" },
+            language: { type: "string", enum: ["ruby", "python", "javascript"] },
+            focus: { type: "array", items: { type: "string" } }
+          },
+          required: ["code", "language"]
+        }
+
+        OUTPUT_SCHEMA = {
+          type: "object",
+          properties: {
+            issues: {
+              type: "array",
+              items: {
+                type: "object",
+                properties: {
+                  severity: { enum: ["critical", "warning", "info"] },
+                  line: { type: "integer" },
+                  message: { type: "string" },
+                  suggestion: { type: "string" }
+                }
+              }
+            },
+            score: { type: "integer", minimum: 0, maximum: 100 }
+          }
+        }
+      end
+      ```
+
+      **The Ventriloquist Pattern**
+
+      Pre-load the conversation with hardcoded exchanges that demonstrate expected behavior:
+
+      ```ruby
+      def ventriloquist_prompt(actual_request)
+        [
+          { role: "user", content: "Review: puts 'hello'" },
+          { role: "assistant", content: '{"issues":[],"score":100}' },
+          { role: "user", content: "Review: eval(params[:code])" },
+          { role: "assistant", content: '{"issues":[{"severity":"critical","line":1,"message":"Code injection vulnerability"}],"score":0}' },
+          { role: "user", content: actual_request }
+        ]
+      end
+      ```
+
+      The model sees examples of correct behavior before processing your actual request, dramatically improving consistency.
+
+      **Response Fencing**
+
+      Constrain outputs to specific formats:
+
+      ```ruby
+      FENCED_PROMPT = <<~PROMPT
+        Respond with ONLY a valid JSON object. No explanation, no markdown.
+        Start your response with { and end with }
+        If you cannot complete the task, respond with: {"error": "reason"}
+      PROMPT
+      ```
+
+      These patterns are your toolkit. Combine them based on the reliability and structure you need.
+    CONTENT
+  },
+  {
+    title: "Tool Use & API Integration",
+    description: "Build AI components that interact with external systems through well-designed tool interfaces.",
+    position: 3,
+    content: <<~CONTENT
+      AI agents become powerful when they can take actions in the real world. Tool use patterns define how to safely and effectively connect LLMs to external systems.
+
+      **Tool Use Pattern**
+
+      Define tools with clear schemas and let the model decide when to use them:
+
+      ```ruby
+      class ToolEnabledAgent
+        TOOLS = [
+          {
+            name: "search_codebase",
+            description: "Search for code patterns across the repository",
+            input_schema: {
+              type: "object",
+              properties: {
+                pattern: { type: "string", description: "Regex pattern to search for" },
+                file_type: { type: "string", description: "File extension filter (e.g., 'rb', 'js')" }
+              },
+              required: ["pattern"]
+            }
+          },
+          {
+            name: "read_file",
+            description: "Read the contents of a file",
+            input_schema: {
+              type: "object",
+              properties: {
+                path: { type: "string", description: "Path to the file" }
+              },
+              required: ["path"]
+            }
+          }
+        ]
+
+        def execute_tool(name, input)
+          case name
+          when "search_codebase"
+            CodeSearch.grep(input["pattern"], extension: input["file_type"])
+          when "read_file"
+            File.read(input["path"])
+          end
+        end
+      end
+      ```
+
+      **API Facade Pattern**
+
+      Wrap external APIs with AI-friendly interfaces:
+
+      ```ruby
+      class GitHubFacade
+        # Instead of exposing raw GitHub API, provide semantic operations
+        OPERATIONS = {
+          "get_pr_diff" => {
+            description: "Get the diff for a pull request",
+            execute: ->(params) { github.pull_request_diff(params["pr_number"]) }
+          },
+          "list_pr_comments" => {
+            description: "List all comments on a pull request",
+            execute: ->(params) { github.pr_comments(params["pr_number"]) }
+          },
+          "add_review_comment" => {
+            description: "Add a review comment to specific line",
+            execute: ->(params) {
+              github.create_pull_request_comment(
+                params["pr_number"],
+                params["body"],
+                params["commit_id"],
+                params["path"],
+                params["line"]
+              )
+            }
+          }
+        }
+      end
+      ```
+
+      **Result Interpreter Pattern**
+
+      Transform tool outputs into AI-digestible formats:
+
+      ```ruby
+      class ResultInterpreter
+        def interpret(tool_name, raw_result)
+          case tool_name
+          when "search_codebase"
+            format_search_results(raw_result)
+          when "run_tests"
+            format_test_results(raw_result)
+          when "api_call"
+            format_api_response(raw_result)
+          end
+        end
+
+        private
+
+        def format_search_results(results)
+          return "No matches found." if results.empty?
+
+          results.map do |r|
+            "File: \#{r[:file]}:\\n```\\n\#{r[:context]}\\n```"
+          end.join("\\n\\n")
+        end
+
+        def format_test_results(results)
+          summary = "\#{results[:passed]} passed, \#{results[:failed]} failed"
+          failures = results[:failures].map do |f|
+            "FAIL: \#{f[:test]}\\n  \#{f[:message]}"
+          end.join("\\n")
+
+          "\#{summary}\\n\\n\#{failures}"
+        end
+      end
+      ```
+
+      **Predicate Pattern**
+
+      Use AI for true/false decisions:
+
+      ```ruby
+      class AIPredicate
+        def self.is_security_issue?(code_snippet)
+          response = claude.message(
+            system: "Respond with ONLY 'true' or 'false'",
+            messages: [{
+              role: "user",
+              content: "Does this code contain a security vulnerability?\\n\#{code_snippet}"
+            }]
+          )
+          response.content.strip.downcase == "true"
+        end
+
+        def self.needs_review?(diff)
+          # Binary decisions are highly reliable with clear prompts
+          response = claude.message(
+            system: "Respond with ONLY 'true' or 'false'",
+            messages: [{
+              role: "user",
+              content: "Does this diff modify authentication, authorization, or security-sensitive code?\\n\#{diff}"
+            }]
+          )
+          response.content.strip.downcase == "true"
+        end
+      end
+      ```
+
+      **Virtual Machine Pattern**
+
+      Create a sandboxed execution environment for AI-generated code:
+
+      ```ruby
+      class AIVirtualMachine
+        def execute(generated_code, context: {})
+          # Validate code before execution
+          raise "Unsafe code" unless safe?(generated_code)
+
+          # Execute in isolated environment
+          sandbox = Sandbox.new(
+            timeout: 5.seconds,
+            memory_limit: 100.megabytes,
+            allowed_methods: [:map, :select, :reduce, :sum]
+          )
+
+          sandbox.execute(generated_code, context)
+        end
+
+        private
+
+        def safe?(code)
+          # No system calls, file operations, or network access
+          dangerous_patterns = [/system/, /exec/, /`/, /File\\./, /Net::/, /require/]
+          dangerous_patterns.none? { |p| code.match?(p) }
+        end
+      end
+      ```
+
+      Tools transform AI from a text generator into an agent that can observe and act. Design tool interfaces carefully — they define what your AI can do.
+    CONTENT
+  },
+  {
+    title: "Human-in-the-Loop Patterns",
+    description: "Design AI systems that collaborate effectively with humans for oversight and continuous improvement.",
+    position: 4,
+    content: <<~CONTENT
+      Production AI systems need human oversight. These patterns define how humans and AI collaborate, ensuring quality while maintaining efficiency.
+
+      **Escalation Pattern**
+
+      Route uncertain or high-stakes decisions to humans:
+
+      ```ruby
+      class EscalatingAgent
+        CONFIDENCE_THRESHOLD = 0.8
+        HIGH_STAKES_ACTIONS = [:delete, :deploy, :payment, :access_grant]
+
+        def execute(action, params)
+          analysis = analyze(action, params)
+
+          if needs_escalation?(analysis)
+            escalate_to_human(action, params, analysis)
+          else
+            perform_action(action, params)
+          end
+        end
+
+        private
+
+        def needs_escalation?(analysis)
+          analysis[:confidence] < CONFIDENCE_THRESHOLD ||
+            HIGH_STAKES_ACTIONS.include?(analysis[:action_type]) ||
+            analysis[:risk_score] > 0.7
+        end
+
+        def escalate_to_human(action, params, analysis)
+          ticket = HumanReviewQueue.create!(
+            action: action,
+            params: params,
+            ai_analysis: analysis,
+            reason: determine_escalation_reason(analysis)
+          )
+
+          notify_reviewer(ticket)
+          { status: :pending_review, ticket_id: ticket.id }
+        end
+      end
+      ```
+
+      **Feedback Loop Pattern**
+
+      Collect human corrections to improve AI behavior:
+
+      ```ruby
+      class FeedbackEnabledReviewer
+        def review(code)
+          result = ai_review(code)
+
+          # Present to human with feedback options
+          {
+            review: result,
+            feedback_options: {
+              accept: "Use this review as-is",
+              modify: "Edit the review before posting",
+              reject: "Discard and write manually"
+            }
+          }
+        end
+
+        def record_feedback(review_id, feedback_type, human_version: nil)
+          original = Review.find(review_id)
+
+          FeedbackRecord.create!(
+            original_output: original.content,
+            feedback_type: feedback_type,
+            human_version: human_version,
+            context: original.input_context
+          )
+
+          # Use feedback for fine-tuning or few-shot examples
+          if feedback_type == :modify && human_version
+            FewShotExampleGenerator.maybe_add(original, human_version)
+          end
+        end
+      end
+      ```
+
+      **Passive Information Radiation**
+
+      Display AI confidence and reasoning without requiring action:
+
+      ```ruby
+      class TransparentAgent
+        def analyze_with_transparency(input)
+          result = perform_analysis(input)
+
+          {
+            conclusion: result[:answer],
+            confidence: result[:confidence],
+            reasoning_steps: result[:chain_of_thought],
+            evidence: result[:supporting_evidence],
+            alternatives_considered: result[:other_options],
+            limitations: result[:caveats],
+            model_used: result[:model],
+            tokens_used: result[:usage]
+          }
+        end
+      end
+
+      # In the UI, always show:
+      # - Confidence level (color-coded)
+      # - "Why?" expandable section with reasoning
+      # - "Alternatives" section
+      # - Clear "AI Generated" badge
+      ```
+
+      **Collaborative Decision Making**
+
+      Structure complex decisions as human-AI dialogues:
+
+      ```ruby
+      class CollaborativeDecider
+        def start_decision(question, context)
+          session = DecisionSession.create!(
+            question: question,
+            context: context,
+            state: :gathering_options
+          )
+
+          # AI generates initial options
+          options = generate_options(question, context)
+
+          session.update!(
+            options: options,
+            state: :awaiting_human_input
+          )
+
+          session
+        end
+
+        def human_input(session_id, input_type, content)
+          session = DecisionSession.find(session_id)
+
+          case input_type
+          when :add_constraint
+            refine_options(session, content)
+          when :eliminate_option
+            remove_option(session, content)
+          when :request_analysis
+            deep_analyze_option(session, content)
+          when :make_decision
+            finalize_decision(session, content)
+          end
+        end
+
+        private
+
+        def refine_options(session, constraint)
+          # AI re-evaluates options given new constraint
+          updated = ai_refine(session.options, constraint)
+          session.update!(
+            options: updated,
+            constraints: session.constraints + [constraint]
+          )
+        end
+      end
+      ```
+
+      **Continuous Learning Pattern**
+
+      Systematically improve AI performance over time:
+
+      ```ruby
+      class ContinuousLearner
+        def review_cycle
+          # 1. Sample recent AI outputs
+          samples = AIOutput.recent.sample(100)
+
+          # 2. Human labels quality
+          labeled = HumanLabeler.batch_label(samples)
+
+          # 3. Identify patterns in failures
+          failure_analysis = analyze_failures(labeled.select(&:incorrect?))
+
+          # 4. Update prompts or examples based on patterns
+          if failure_analysis[:common_pattern]
+            update_system_prompt(failure_analysis)
+          end
+
+          # 5. Add good examples to few-shot bank
+          labeled.select(&:excellent?).each do |example|
+            FewShotBank.add(example.input, example.output)
+          end
+        end
+      end
+      ```
+
+      **Ethical Considerations Pattern**
+
+      Build ethics checks into the AI pipeline:
+
+      ```ruby
+      class EthicalAIGateway
+        ETHICAL_CHECKS = [
+          :bias_detection,
+          :privacy_protection,
+          :consent_verification,
+          :harm_prevention
+        ]
+
+        def process(request)
+          # Pre-flight ethical check
+          ethical_issues = ETHICAL_CHECKS.map do |check|
+            send(check, request)
+          end.compact
+
+          if ethical_issues.any?
+            return {
+              blocked: true,
+              reasons: ethical_issues,
+              escalated_to: "ethics-review@company.com"
+            }
+          end
+
+          # Process if no issues
+          result = ai_process(request)
+
+          # Post-processing audit
+          AuditLog.create!(
+            request: request,
+            result: result,
+            ethical_checks_passed: ETHICAL_CHECKS
+          )
+
+          result
+        end
+      end
+      ```
+
+      Human-in-the-loop isn't about distrust — it's about building AI systems that get better over time through human wisdom and oversight.
+    CONTENT
+  },
+  {
+    title: "Error Handling & Quality Patterns",
+    description: "Build resilient AI applications with intelligent error handling and quality assurance.",
+    position: 5,
+    content: <<~CONTENT
+      AI systems fail in unique ways — hallucinations, inconsistent outputs, token limits, rate limits. These patterns help you build resilient systems that handle failures gracefully.
+
+      **Contextual Error Diagnosis**
+
+      Use AI to understand and explain errors:
+
+      ```ruby
+      class ContextualErrorHandler
+        def handle(error, context)
+          diagnosis = claude.message(
+            system: "You are a debugging assistant. Analyze this error and provide actionable advice.",
+            messages: [{
+              role: "user",
+              content: <<~PROMPT
+                Error: \#{error.class}: \#{error.message}
+                Backtrace: \#{error.backtrace.first(5).join("\\n")}
+
+                Context:
+                - Operation: \#{context[:operation]}
+                - Input: \#{context[:input].to_json}
+                - User: \#{context[:user_id]}
+
+                Provide:
+                1. Root cause (one sentence)
+                2. Is this recoverable? (yes/no)
+                3. Suggested fix
+                4. User-friendly message
+              PROMPT
+            }]
+          )
+
+          parse_diagnosis(diagnosis)
+        end
+
+        def parse_diagnosis(response)
+          # Extract structured diagnosis from AI response
+          {
+            root_cause: extract_section(response, "Root cause"),
+            recoverable: extract_section(response, "recoverable").downcase.include?("yes"),
+            fix: extract_section(response, "Suggested fix"),
+            user_message: extract_section(response, "User-friendly message")
+          }
+        end
+      end
+      ```
+
+      **Smart Recovery Pattern**
+
+      Automatically recover from common AI failures:
+
+      ```ruby
+      class SmartRecovery
+        MAX_RETRIES = 3
+
+        def call_with_recovery(prompt, **options)
+          retries = 0
+
+          begin
+            response = claude.message(prompt, **options)
+            validate_response!(response)
+            response
+
+          rescue InvalidJSONError => e
+            retries += 1
+            if retries <= MAX_RETRIES
+              # Ask AI to fix its own malformed JSON
+              prompt = repair_json_prompt(e.raw_output)
+              retry
+            end
+            raise
+
+          rescue RateLimitError => e
+            sleep(exponential_backoff(retries))
+            retries += 1
+            retry if retries <= MAX_RETRIES
+            raise
+
+          rescue TokenLimitError => e
+            # Truncate context and retry
+            options[:messages] = truncate_context(options[:messages])
+            retries += 1
+            retry if retries <= MAX_RETRIES
+            raise
+
+          rescue HallucinationDetected => e
+            # Re-prompt with stricter constraints
+            options[:system] = add_grounding_instructions(options[:system])
+            retries += 1
+            retry if retries <= MAX_RETRIES
+            raise
+          end
+        end
+
+        private
+
+        def repair_json_prompt(malformed)
+          <<~PROMPT
+            The following JSON is malformed. Fix it and return ONLY valid JSON:
+
+            \#{malformed}
+          PROMPT
+        end
+      end
+      ```
+
+      **Guardrail Pattern**
+
+      Validate AI outputs before they reach users:
+
+      ```ruby
+      class OutputGuardrails
+        GUARDRAILS = [
+          :check_format,
+          :check_length,
+          :check_safety,
+          :check_factuality,
+          :check_consistency
+        ]
+
+        def validate(output, context)
+          violations = []
+
+          GUARDRAILS.each do |guardrail|
+            result = send(guardrail, output, context)
+            violations << result if result[:violated]
+          end
+
+          {
+            valid: violations.empty?,
+            violations: violations,
+            sanitized_output: violations.any? ? sanitize(output, violations) : output
+          }
+        end
+
+        private
+
+        def check_safety(output, context)
+          # Check for harmful content
+          dangerous_patterns = [
+            /password.*=.*['"]/i,
+            /api[_-]?key/i,
+            /execute.*sql/i
+          ]
+
+          if dangerous_patterns.any? { |p| output.match?(p) }
+            { violated: true, guardrail: :safety, reason: "Potentially sensitive content detected" }
+          else
+            { violated: false }
+          end
+        end
+
+        def check_factuality(output, context)
+          # Use a second AI call to verify claims
+          if context[:requires_factuality]
+            verification = verify_claims(output, context[:source_documents])
+            if verification[:unverified_claims].any?
+              { violated: true, guardrail: :factuality, reason: "Unverified claims", details: verification }
+            else
+              { violated: false }
+            end
+          else
+            { violated: false }
+          end
+        end
+      end
+      ```
+
+      **Eval Pattern**
+
+      Systematically measure AI quality:
+
+      ```ruby
+      class AIEvaluator
+        def evaluate(test_suite)
+          results = test_suite.map do |test_case|
+            output = ai_generate(test_case[:input])
+
+            {
+              input: test_case[:input],
+              expected: test_case[:expected],
+              actual: output,
+              scores: {
+                accuracy: score_accuracy(output, test_case[:expected]),
+                format_compliance: score_format(output, test_case[:format]),
+                latency: test_case[:latency_ms],
+                cost: test_case[:tokens_used] * TOKEN_COST
+              }
+            }
+          end
+
+          aggregate_results(results)
+        end
+
+        def aggregate_results(results)
+          {
+            accuracy: results.sum { |r| r[:scores][:accuracy] } / results.size,
+            format_compliance: results.count { |r| r[:scores][:format_compliance] == 1.0 } / results.size.to_f,
+            p50_latency: percentile(results.map { |r| r[:scores][:latency] }, 50),
+            p99_latency: percentile(results.map { |r| r[:scores][:latency] }, 99),
+            total_cost: results.sum { |r| r[:scores][:cost] },
+            failures: results.select { |r| r[:scores][:accuracy] < 0.5 }
+          }
+        end
+      end
+      ```
+
+      **Predictive Prevention**
+
+      Anticipate and prevent errors before they occur:
+
+      ```ruby
+      class PredictiveGuard
+        def safe_to_proceed?(request)
+          risk_assessment = assess_risk(request)
+
+          if risk_assessment[:risk_score] > 0.7
+            {
+              proceed: false,
+              reason: risk_assessment[:primary_risk],
+              suggestions: risk_assessment[:mitigations]
+            }
+          elsif risk_assessment[:risk_score] > 0.4
+            {
+              proceed: true,
+              warnings: risk_assessment[:potential_issues],
+              monitoring: :enhanced
+            }
+          else
+            { proceed: true, monitoring: :standard }
+          end
+        end
+
+        private
+
+        def assess_risk(request)
+          # Analyze request for potential issues
+          checks = {
+            input_complexity: assess_complexity(request[:input]),
+            similar_failures: find_similar_past_failures(request),
+            resource_usage: estimate_resource_usage(request),
+            edge_cases: detect_edge_cases(request)
+          }
+
+          synthesize_risk(checks)
+        end
+      end
+      ```
+
+      These patterns transform AI from a black box into a reliable component of your architecture. Errors become learning opportunities, and quality becomes measurable and improvable.
+
+      ---
+
+      *This curriculum is based on patterns from Obie Fernandez's "Patterns of Application Development Using AI" (2024). For the complete pattern catalog with detailed implementations, refer to the book available at [Leanpub](https://leanpub.com/patterns-of-application-development-using-ai).*
+    CONTENT
+  }
+]
+
+ai_patterns_lessons.each do |attrs|
+  Lesson.find_or_create_by!(title: attrs[:title], curriculum_module_id: ai_patterns_mod.id) do |l|
+    l.description = attrs[:description]
+    l.content = attrs[:content]
+    l.position = attrs[:position]
+  end
+end
+
 puts "Seeded #{Lesson.count} lessons in #{CurriculumModule.count} module(s)"
 
 # Hackathons
