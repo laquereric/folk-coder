@@ -1,0 +1,150 @@
+<% content_for :title, "My Journey - FolkCoder" %>
+
+<section class="pt-32 pb-20 px-4">
+  <div class="max-w-5xl mx-auto">
+    <!-- Header -->
+    <div class="text-center mb-12">
+      <h1 class="text-4xl font-bold mb-2">Your Learning Journey</h1>
+      <p class="text-gray-400 text-lg">Track your progress through the SwarmPod curriculum</p>
+    </div>
+
+    <!-- Stats Grid -->
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12">
+      <div class="bg-gray-800 border border-gray-700 rounded-xl p-5 text-center">
+        <div class="text-3xl font-bold text-folk-green"><%= @completed_count %></div>
+        <div class="text-gray-400 text-sm mt-1">Lessons Completed</div>
+      </div>
+      <div class="bg-gray-800 border border-gray-700 rounded-xl p-5 text-center">
+        <div class="text-3xl font-bold text-folk-blue"><%= @progress_percentage %>%</div>
+        <div class="text-gray-400 text-sm mt-1">Progress</div>
+      </div>
+      <div class="bg-gray-800 border border-gray-700 rounded-xl p-5 text-center">
+        <div class="text-3xl font-bold text-folk-orange"><%= @streak %></div>
+        <div class="text-gray-400 text-sm mt-1">Day Streak</div>
+      </div>
+      <div class="bg-gray-800 border border-gray-700 rounded-xl p-5 text-center">
+        <div class="text-3xl font-bold text-folk-purple"><%= @milestones.count { |m| m[:achieved] } %>/<%= @milestones.size %></div>
+        <div class="text-gray-400 text-sm mt-1">Milestones</div>
+      </div>
+    </div>
+
+    <div class="grid md:grid-cols-3 gap-8">
+      <!-- Left Column: Journey Path -->
+      <div class="md:col-span-2">
+        <!-- Progress Bar -->
+        <div class="bg-gray-800 border border-gray-700 rounded-xl p-6 mb-8">
+          <div class="flex justify-between items-center mb-3">
+            <span class="font-medium">Overall Progress</span>
+            <span class="text-gray-400"><%= @completed_count %>/<%= @total_lessons %> lessons</span>
+          </div>
+          <div class="w-full bg-gray-700 rounded-full h-4">
+            <div class="bg-gradient-to-r from-folk-blue to-folk-green rounded-full h-4 transition-all duration-500" style="width: <%= @progress_percentage %>%"></div>
+          </div>
+        </div>
+
+        <!-- Journey Roadmap -->
+        <div class="bg-gray-800 border border-gray-700 rounded-xl p-6">
+          <h2 class="text-xl font-bold mb-6">Curriculum Roadmap</h2>
+
+          <% @modules.each_with_index do |mod, mod_index| %>
+            <div class="mb-8 last:mb-0">
+              <div class="flex items-center gap-3 mb-4">
+                <div class="w-8 h-8 rounded-full bg-folk-purple/20 text-folk-purple flex items-center justify-center font-bold text-sm">
+                  <%= mod_index + 1 %>
+                </div>
+                <h3 class="font-semibold text-lg"><%= mod.title %></h3>
+              </div>
+
+              <div class="ml-4 border-l-2 border-gray-700 pl-6 space-y-3">
+                <% mod.lessons.each_with_index do |lesson, i| %>
+                  <% completed = lesson.completed_by?(@user) %>
+                  <% is_next = @next_lesson&.id == lesson.id %>
+                  <%= link_to lesson_path(lesson), class: "flex items-center gap-3 p-3 rounded-lg transition #{completed ? 'bg-folk-green/10 border border-folk-green/30' : is_next ? 'bg-folk-blue/10 border border-folk-blue/30' : 'bg-gray-700/30 hover:bg-gray-700/50'}" do %>
+                    <div class="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold <%= completed ? 'bg-folk-green text-white' : is_next ? 'bg-folk-blue text-white' : 'bg-gray-600 text-gray-300' %>">
+                      <% if completed %>
+                        &#10003;
+                      <% else %>
+                        <%= i + 1 %>
+                      <% end %>
+                    </div>
+                    <div class="flex-1 min-w-0">
+                      <div class="font-medium truncate <%= completed ? 'text-folk-green' : is_next ? 'text-folk-blue' : 'text-gray-300' %>">
+                        <%= lesson.title %>
+                      </div>
+                      <% if is_next %>
+                        <div class="text-folk-blue text-xs font-medium">Up Next</div>
+                      <% end %>
+                    </div>
+                    <div class="text-gray-500">&rarr;</div>
+                  <% end %>
+                <% end %>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      </div>
+
+      <!-- Right Column: Sidebar -->
+      <div class="space-y-6">
+        <!-- Continue Learning -->
+        <% if @next_lesson %>
+          <div class="bg-gradient-to-br from-folk-blue/20 to-folk-purple/20 border border-folk-blue/30 rounded-xl p-6">
+            <h3 class="font-semibold mb-3">Continue Learning</h3>
+            <p class="text-gray-300 text-sm mb-4"><%= @next_lesson.title %></p>
+            <%= link_to "Start Lesson", lesson_path(@next_lesson), class: "block w-full bg-folk-blue hover:bg-blue-600 text-white text-center py-3 rounded-lg font-medium transition" %>
+          </div>
+        <% else %>
+          <div class="bg-gradient-to-br from-folk-green/20 to-folk-blue/20 border border-folk-green/30 rounded-xl p-6 text-center">
+            <div class="text-4xl mb-3">&#127942;</div>
+            <h3 class="font-semibold mb-2">Congratulations!</h3>
+            <p class="text-gray-400 text-sm">You've completed the entire curriculum!</p>
+          </div>
+        <% end %>
+
+        <!-- Milestones -->
+        <div class="bg-gray-800 border border-gray-700 rounded-xl p-6">
+          <h3 class="font-semibold mb-4">Milestones</h3>
+          <div class="space-y-3">
+            <% @milestones.each do |milestone| %>
+              <div class="flex items-center gap-3 p-3 rounded-lg <%= milestone[:achieved] ? 'bg-folk-green/10' : 'bg-gray-700/30' %>">
+                <div class="w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold <%= milestone[:achieved] ? 'bg-folk-green text-white' : 'bg-gray-600 text-gray-400' %>">
+                  <% if milestone[:achieved] %>
+                    &#10003;
+                  <% else %>
+                    <%= milestone[:icon] %>
+                  <% end %>
+                </div>
+                <div>
+                  <div class="font-medium <%= milestone[:achieved] ? 'text-folk-green' : 'text-gray-300' %>">
+                    <%= milestone[:name] %>
+                  </div>
+                  <div class="text-gray-500 text-xs"><%= milestone[:description] %></div>
+                </div>
+              </div>
+            <% end %>
+          </div>
+        </div>
+
+        <!-- Recent Activity -->
+        <% if @recent_completions.any? %>
+          <div class="bg-gray-800 border border-gray-700 rounded-xl p-6">
+            <h3 class="font-semibold mb-4">Recent Activity</h3>
+            <div class="space-y-3">
+              <% @recent_completions.each do |completion| %>
+                <div class="flex items-center gap-3 text-sm">
+                  <div class="w-2 h-2 rounded-full bg-folk-green flex-shrink-0"></div>
+                  <div class="flex-1 truncate text-gray-300">
+                    Completed "<%= completion.lesson.title %>"
+                  </div>
+                  <div class="text-gray-500 text-xs flex-shrink-0">
+                    <%= time_ago_in_words(completion.created_at) %> ago
+                  </div>
+                </div>
+              <% end %>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</section>

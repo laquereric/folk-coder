@@ -9,6 +9,7 @@ Rails.application.routes.draw do
     resource :registration, only: [ :new, :create ]
 
     get "/curriculum", to: "curriculum#index", as: :curriculum
+    get "/journey", to: "journey#show", as: :journey
     resources :lessons, only: [ :show ] do
       post :complete, on: :member
     end
@@ -21,9 +22,11 @@ Rails.application.routes.draw do
       resources :users, only: [ :index, :show, :edit, :update ]
     end
 
-    root "pages#home"
+    get "/home", to: "pages#home", as: :home
     get "/next", to: "pages#next_page"
     get "/faq", to: "pages#faq"
     get "/ai-risks-benefits", to: "pages#ai_risks_benefits"
+
+    root "pages#root"
   end
 end

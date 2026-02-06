@@ -1,6 +1,14 @@
 class PagesController < ApplicationController
   allow_unauthenticated_access
 
+  def root
+    if authenticated?
+      redirect_to journey_path
+    else
+      redirect_to home_path
+    end
+  end
+
   def home
     @user_count = User.count
     @hackathon_count = Hackathon.count
