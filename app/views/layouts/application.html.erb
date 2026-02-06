@@ -58,9 +58,9 @@
             <% if authenticated? %>
               <%= link_to "Home", home_path, class: "text-gray-300 hover:text-white transition" %>
             <% end %>
-            <%= link_to t('layouts.application.nav_how_it_works'), "#{home_path}#how-it-works", class: "text-gray-300 hover:text-white transition" %>
-            <%= link_to t('layouts.application.nav_features'), "#{home_path}#features", class: "text-gray-300 hover:text-white transition" %>
-            <%= link_to t('layouts.application.nav_starting_gate'), "#{home_path}#starting-gate", class: "text-gray-300 hover:text-white transition" %>
+            <%= link_to t('layouts.application.nav_how_it_works'), home_path(anchor: 'how-it-works'), class: "text-gray-300 hover:text-white transition" %>
+            <%= link_to t('layouts.application.nav_features'), home_path(anchor: 'features'), class: "text-gray-300 hover:text-white transition" %>
+            <%= link_to t('layouts.application.nav_starting_gate'), home_path(anchor: 'starting-gate'), class: "text-gray-300 hover:text-white transition" %>
             <%= link_to t('layouts.application.nav_faq'), faq_path, class: "text-gray-300 hover:text-white transition" %>
             <% if authenticated? %>
               <%= link_to "My Journey", journey_path, class: "text-folk-green hover:text-green-400 transition" %>
