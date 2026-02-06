@@ -3176,7 +3176,7 @@ data_driven_lessons = [
 
       **State of the Art: 2017 → 2026**
 
-      Since the 2017 publication, the data-driven landscape has evolved significantly. Two Ruby gems now bring these patterns natively to Rails:
+      Since the 2017 publication, the data-driven landscape has evolved significantly. Three Ruby gems now bring these patterns natively to Rails:
 
       **[rails-multistore](https://github.com/laquereric/rails-multistore)** - Unified interface for managing multiple data stores in Rails. Configure Elasticsearch, MarkLogic, vector databases, and other stores with a single DSL. Push and query across all stores simultaneously with ActiveJob-powered async operations.
 
@@ -3189,6 +3189,20 @@ data_driven_lessons = [
           store :analytics, type: :marklogic, url: ENV["ML_URL"]
         end
       end
+      ```
+
+      **[rails-marklogic](https://github.com/laquereric/rails-marklogic)** - Minimal MarkLogic REST client for Rails. Drop-in integration for working directly with MarkLogic's multi-model database — the same platform discussed in the original report. Store JSON, XML, and binary documents with full search and XQuery/JavaScript evaluation.
+
+      ```ruby
+      # Store documents in their native form
+      RailsMarklogic.put_document("/users/1.json", { name: "Eric" }.to_json)
+      RailsMarklogic.put_document("/docs/1.xml", "<doc><title>Hello</title></doc>")
+
+      # Search across all document types
+      results = RailsMarklogic.search("keyword", options: { format: "json" })
+
+      # Execute server-side queries
+      RailsMarklogic.eval_xquery('fn:current-dateTime()')
       ```
 
       **[medallion](https://github.com/laquereric/medallion-gem)** - Medallion architecture (Bronze/Silver/Gold) for progressive data quality. Raw data lands in Bronze, gets cleansed to Silver, and curated to Gold with full lineage tracking.

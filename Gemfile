@@ -22,6 +22,7 @@ gem "redcarpet"
 
 # Data-driven development gems
 gem "rails-multistore", git: "https://github.com/laquereric/rails-multistore.git"
+gem "rails-marklogic", git: "https://github.com/laquereric/rails-marklogic.git"
 gem "medallion", git: "https://github.com/laquereric/medallion-gem.git"
 
 # Use Active Model has_secure_password [https://guides.rubyonrails.org/active_model_basics.html#securepassword]
