@@ -3244,6 +3244,360 @@ end
 
 puts "Seeded #{Lesson.count} lessons in #{CurriculumModule.count} module(s)"
 
+# Curriculum 8: Ruby Fundamentals (standalone - no prerequisites)
+ruby_mod = CurriculumModule.find_or_create_by!(title: "Ruby Fundamentals") do |m|
+  m.description = "Learn Ruby programming with hands-on practice via Exercism. Master the fundamentals through practical exercises."
+  m.position = 8
+end
+
+ruby_lessons = [
+  {
+    title: "Hello, World!",
+    description: "Get started with Ruby syntax basics.",
+    position: 1,
+    content: <<~CONTENT
+      # Getting Started with Ruby
+
+      Welcome to Ruby! Your first task is to implement a simple "Hello, World!" program.
+
+      ## What You'll Learn
+
+      - Ruby syntax fundamentals
+      - String basics
+      - Method definitions
+      - Running Ruby code
+
+      ## The Exercise
+
+      Write a method that returns the classic greeting "Hello, World!".
+
+      **[Complete the Hello World Exercise on Exercism](https://exercism.org/tracks/ruby/exercises/hello-world)**
+
+      ## Instructions
+
+      1. Visit the Exercism link above
+      2. Read the problem description
+      3. Implement the solution in Ruby
+      4. Run the tests to verify your solution
+      5. Submit your code
+      6. Return here and mark this lesson complete
+
+      ## Tips
+
+      - Ruby methods are defined with `def` and `end`
+      - Strings can use single or double quotes
+      - The last expression in a method is automatically returned
+    CONTENT
+  },
+  {
+    title: "Two-Fer",
+    description: "Practice string interpolation and default parameters.",
+    position: 2,
+    content: <<~CONTENT
+      # Two-Fer: String Interpolation
+
+      "Two-fer" is short for "two for one." Practice string interpolation and default parameter values.
+
+      ## What You'll Learn
+
+      - String interpolation with `\#{}`
+      - Default parameter values
+      - Conditional logic basics
+
+      ## The Exercise
+
+      Create a method that takes a name and returns "One for [name], one for me."
+
+      **[Complete the Two-Fer Exercise on Exercism](https://exercism.org/tracks/ruby/exercises/two-fer)**
+
+      ## Example
+
+      ```ruby
+      two_fer("Alice")  # => "One for Alice, one for me."
+      two_fer           # => "One for you, one for me."
+      ```
+    CONTENT
+  },
+  {
+    title: "Leap Year",
+    description: "Practice conditional logic and date handling.",
+    position: 3,
+    content: <<~CONTENT
+      # Leap Year Calculation
+
+      Implement leap year logic to test your understanding of conditional statements.
+
+      ## What You'll Learn
+
+      - Conditional logic (`if`/`elsif`/`else`)
+      - Modulo operator (`%`)
+      - Boolean expressions
+
+      ## The Rules
+
+      A year is a leap year if:
+      - Divisible by 400, OR
+      - Divisible by 4 AND NOT divisible by 100
+
+      **[Complete the Leap Exercise on Exercism](https://exercism.org/tracks/ruby/exercises/leap)**
+
+      ## Example
+
+      ```ruby
+      leap?(2024)  # => true
+      leap?(1900)  # => false
+      leap?(2000)  # => true
+      ```
+    CONTENT
+  },
+  {
+    title: "Resistor Color",
+    description: "Work with arrays and data mapping.",
+    position: 4,
+    content: <<~CONTENT
+      # Resistor Color Bands
+
+      Map resistor colors to their numeric values using arrays.
+
+      ## What You'll Learn
+
+      - Arrays in Ruby
+      - Array indexing
+      - The `index` method
+
+      ## The Exercise
+
+      Colors: Black=0, Brown=1, Red=2, Orange=3, Yellow=4, Green=5, Blue=6, Violet=7, Grey=8, White=9
+
+      **[Complete the Resistor Color Exercise on Exercism](https://exercism.org/tracks/ruby/exercises/resistor-color)**
+
+      ## Example
+
+      ```ruby
+      ResistorColor.color_code("brown")  # => 1
+      ResistorColor.color_code("orange") # => 3
+      ```
+    CONTENT
+  },
+  {
+    title: "Isogram",
+    description: "Practice string manipulation and character analysis.",
+    position: 5,
+    content: <<~CONTENT
+      # Isogram Detection
+
+      An isogram is a word with no repeating letters.
+
+      ## What You'll Learn
+
+      - String manipulation
+      - The `chars` method
+      - Frequency counting
+
+      **[Complete the Isogram Exercise on Exercism](https://exercism.org/tracks/ruby/exercises/isogram)**
+
+      ## Example
+
+      ```ruby
+      Isogram.isogram?("lumberjacks")  # => true
+      Isogram.isogram?("alphabet")     # => false
+      ```
+    CONTENT
+  },
+  {
+    title: "Acronym",
+    description: "Transform strings into acronyms.",
+    position: 6,
+    content: <<~CONTENT
+      # Acronym Generator
+
+      Convert phrases into their acronyms.
+
+      ## What You'll Learn
+
+      - String splitting with `split`
+      - The `map` method
+      - Array to string conversion
+
+      **[Complete the Acronym Exercise on Exercism](https://exercism.org/tracks/ruby/exercises/acronym)**
+
+      ## Example
+
+      ```ruby
+      Acronym.abbreviate("Portable Network Graphics")  # => "PNG"
+      Acronym.abbreviate("Ruby on Rails")              # => "ROR"
+      ```
+    CONTENT
+  },
+  {
+    title: "Raindrops",
+    description: "Practice divisibility and string building.",
+    position: 7,
+    content: <<~CONTENT
+      # Raindrops (FizzBuzz Variant)
+
+      Convert numbers to raindrop sounds based on divisibility.
+
+      ## The Rules
+
+      - Divisible by 3: "Pling"
+      - Divisible by 5: "Plang"
+      - Divisible by 7: "Plong"
+      - Otherwise: the number as a string
+
+      **[Complete the Raindrops Exercise on Exercism](https://exercism.org/tracks/ruby/exercises/raindrops)**
+
+      ## Example
+
+      ```ruby
+      Raindrops.convert(28)  # => "Plong"
+      Raindrops.convert(30)  # => "PlingPlang"
+      Raindrops.convert(34)  # => "34"
+      ```
+    CONTENT
+  },
+  {
+    title: "Hamming Distance",
+    description: "Compare strings and count differences.",
+    position: 8,
+    content: <<~CONTENT
+      # Hamming Distance
+
+      Calculate the number of positions where two strings differ.
+
+      ## What You'll Learn
+
+      - Parallel iteration with `zip`
+      - Counting with `count`
+      - Raising exceptions
+
+      **[Complete the Hamming Exercise on Exercism](https://exercism.org/tracks/ruby/exercises/hamming)**
+
+      ## Example
+
+      ```ruby
+      Hamming.compute("GAGCCTACTAACGGGAT", "CATCGTAATGACGGCCT")
+      # => 7
+      ```
+    CONTENT
+  },
+  {
+    title: "Word Count",
+    description: "Build a frequency hash from text.",
+    position: 9,
+    content: <<~CONTENT
+      # Word Count
+
+      Count word occurrences in a phrase using hashes.
+
+      ## What You'll Learn
+
+      - Hash creation and manipulation
+      - Default hash values
+      - Text normalization
+
+      **[Complete the Word Count Exercise on Exercism](https://exercism.org/tracks/ruby/exercises/word-count)**
+
+      ## Example
+
+      ```ruby
+      Phrase.new("one fish two fish red fish blue fish").word_count
+      # => {"one"=>1, "fish"=>4, "two"=>1, "red"=>1, "blue"=>1}
+      ```
+    CONTENT
+  },
+  {
+    title: "Clock",
+    description: "Build a class with custom equality and arithmetic.",
+    position: 10,
+    content: <<~CONTENT
+      # Clock Class
+
+      Implement a clock that handles times without dates.
+
+      ## What You'll Learn
+
+      - Class definition
+      - Instance variables
+      - Custom `==` equality
+      - Operator overloading (`+`, `-`)
+
+      **[Complete the Clock Exercise on Exercism](https://exercism.org/tracks/ruby/exercises/clock)**
+
+      ## Example
+
+      ```ruby
+      clock = Clock.new(hour: 10, minute: 0)
+      clock.to_s    # => "10:00"
+      clock + 3     # => "10:03"
+      clock - 30    # => "09:30"
+      ```
+    CONTENT
+  },
+  {
+    title: "Series",
+    description: "Extract substrings and validate input.",
+    position: 11,
+    content: <<~CONTENT
+      # Series
+
+      Return all contiguous substrings of a specified length.
+
+      ## What You'll Learn
+
+      - String slicing
+      - The `each_cons` method
+      - Input validation
+
+      **[Complete the Series Exercise on Exercism](https://exercism.org/tracks/ruby/exercises/series)**
+
+      ## Example
+
+      ```ruby
+      Series.new("49142").slices(3)
+      # => ["491", "914", "142"]
+      ```
+    CONTENT
+  },
+  {
+    title: "Robot Name",
+    description: "Generate unique identifiers and manage state.",
+    position: 12,
+    content: <<~CONTENT
+      # Robot Name Generator
+
+      Generate unique names for robots (e.g., "AB123").
+
+      ## What You'll Learn
+
+      - Random generation
+      - Class variables
+      - Uniqueness constraints
+
+      **[Complete the Robot Name Exercise on Exercism](https://exercism.org/tracks/ruby/exercises/robot-name)**
+
+      ## Example
+
+      ```ruby
+      robot = Robot.new
+      robot.name   # => "RB837"
+      robot.reset
+      robot.name   # => Different unique name
+      ```
+    CONTENT
+  }
+]
+
+ruby_lessons.each do |attrs|
+  Lesson.find_or_create_by!(title: attrs[:title], curriculum_module_id: ruby_mod.id) do |l|
+    l.description = attrs[:description]
+    l.content = attrs[:content]
+    l.position = attrs[:position]
+  end
+end
+
+puts "Seeded Ruby Fundamentals curriculum with #{ruby_lessons.length} lessons"
+
 # Hackathons
 hackathons = [
   # North America

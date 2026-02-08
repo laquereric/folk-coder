@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_02_03_175453) do
+ActiveRecord::Schema[8.1].define(version: 2026_02_06_160000) do
   create_table "hackathons", force: :cascade do |t|
     t.string "country"
     t.datetime "created_at", null: false
@@ -49,12 +49,24 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_03_175453) do
     t.index ["curriculum_module_id"], name: "index_lessons_on_curriculum_module_id"
   end
 
+  create_table "module_prerequisites", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.integer "curriculum_module_id", null: false
+    t.integer "prerequisite_module_id", null: false
+    t.datetime "updated_at", null: false
+    t.index ["curriculum_module_id", "prerequisite_module_id"], name: "idx_module_prereqs_unique", unique: true
+    t.index ["curriculum_module_id"], name: "index_module_prerequisites_on_curriculum_module_id"
+    t.index ["prerequisite_module_id"], name: "index_module_prerequisites_on_prerequisite_module_id"
+  end
+
   create_table "modules", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.text "description"
     t.integer "position"
+    t.integer "prerequisite_module_id"
     t.string "title"
     t.datetime "updated_at", null: false
+    t.index ["prerequisite_module_id"], name: "index_modules_on_prerequisite_module_id"
   end
 
   create_table "sessions", force: :cascade do |t|
@@ -71,11 +83,16 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_03_175453) do
     t.string "email_address", null: false
     t.string "name"
     t.string "password_digest", null: false
+    t.string "role", default: "member", null: false
     t.datetime "updated_at", null: false
     t.index ["email_address"], name: "index_users_on_email_address", unique: true
+    t.index ["role"], name: "index_users_on_role"
   end
 
   add_foreign_key "lesson_completions", "lessons"
   add_foreign_key "lesson_completions", "users"
+  add_foreign_key "module_prerequisites", "modules", column: "curriculum_module_id"
+  add_foreign_key "module_prerequisites", "modules", column: "prerequisite_module_id"
+  add_foreign_key "modules", "modules", column: "prerequisite_module_id"
   add_foreign_key "sessions", "users"
 end
